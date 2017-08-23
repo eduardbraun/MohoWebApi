@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Models\Dtos\" />
     <Folder Include="Commands\" />
     <Folder Include="Repositories\" />
     <Folder Include="wwwroot\images\" />

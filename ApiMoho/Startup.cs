@@ -57,8 +57,8 @@ namespace ApiMoho
             services.AddIdentity<UserModel, UserRole>().AddEntityFrameworkStores<SecurityContext>()
                 .AddDefaultTokenProviders();
 
-           
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.Events = new CookieAuthenticationEvents

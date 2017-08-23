@@ -112,6 +112,9 @@ namespace ApiMoho.Controllers
                     return Ok(new
                     {
                         token = new JwtSecurityTokenHandler().WriteToken(token),
+                        firstname = user.FirstName,
+                        lastname= user.LastName,
+                        email = user.UserName,
                         expiration = token.ValidTo
                     });
                 }
