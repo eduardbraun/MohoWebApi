@@ -41,7 +41,7 @@ namespace ApiMoho.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register([FromForm] RegisterModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -49,20 +49,30 @@ namespace ApiMoho.Controllers
             }
             var user = new UserModel()
             {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 UserName = model.Email,
                 Email = model.Email
             };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            try
+            {
+                var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (result.Succeeded)
-            {
-                return Ok(result);
+                if (result.Succeeded)
+                {
+                    return Ok(result);
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("error", error.Description);
+                }
+                return BadRequest(result.Errors);
             }
-            foreach (var error in result.Errors)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("error", error.Description);
+                _logger.LogError($"error while registering: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while registering");
             }
-            return BadRequest(result.Errors);
         }
 
         [ValidateForm]
