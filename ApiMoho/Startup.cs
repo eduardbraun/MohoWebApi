@@ -25,10 +25,6 @@ namespace ApiMoho
 {
     public class Startup
     {
-        private static readonly string secretKey = "mysupersecret_secretkey!123";
-        private static readonly string issure = "AltairCA";
-        private static readonly string audience = "AltairCAAudience";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -39,14 +35,14 @@ namespace ApiMoho
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = @"Server=DESKTOP-3RGOS1J\SQLEXPRESS;Database=ApiMoho;Trusted_Connection=True;";
+            services.AddDbContext<ApiMohoContext>(options => options.UseSqlServer(connection));
+
             services.AddSingleton(Configuration);
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
-                    });
+                    builder => { builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin(); });
             });
             services.AddMvc();
             services.AddDbContext<SecurityContext>(options =>
@@ -128,9 +124,5 @@ namespace ApiMoho
             app.UseIdentity();
             app.UseMvc();
         }
-
-   
-
-      
     }
 }
