@@ -7,11 +7,11 @@ namespace ApiMoho.Models
 {
     public enum ListingTypeEnum
     {
-        Car,
-        House,
-        Garden,
-        Construction,
-        Renovation,
-        Other
+        Car = 1,
+        House = 2,
+        Garden = 3,
+        Construction = 4,
+        Renovation = 5,
+        Other = 6
     }
 }

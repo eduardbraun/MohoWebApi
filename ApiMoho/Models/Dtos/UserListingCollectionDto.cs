@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace ApiMoho.Models.Dtos
 {
-    public class ListingsDto
+    public class UserListingCollectionDto
     {
+        public List<UserListingDto> ListingsCollection { get; set; }
     }
 }

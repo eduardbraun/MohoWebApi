@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ApiMoho.Models.Enums
+namespace ApiMoho.Models.Response
 {
-    public enum CountryEnum
+    public class GetAllListingsResponse
     {
-        Canada = 1
     }
 }

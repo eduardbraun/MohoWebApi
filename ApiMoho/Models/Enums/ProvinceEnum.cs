@@ -7,8 +7,8 @@ namespace ApiMoho.Models.Enums
 {
     public enum ProvinceEnum
     {
-        Manitoba,
-        Alberta,
-        Saskatchewan
+        Manitoba = 1,
+        Alberta = 2,
+        Saskatchewan = 3
     }
 }

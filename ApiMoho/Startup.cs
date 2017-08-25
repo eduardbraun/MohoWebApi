@@ -4,8 +4,12 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using ApiMoho.Commands;
+using ApiMoho.Commands.Interfaces;
 using ApiMoho.Context;
 using ApiMoho.Models;
+using ApiMoho.Repositories;
+using ApiMoho.Repositories.interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -35,8 +39,7 @@ namespace ApiMoho
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = @"Server=DESKTOP-3RGOS1J\SQLEXPRESS;Database=ApiMoho;Trusted_Connection=True;";
-            services.AddDbContext<ApiMohoContext>(options => options.UseSqlServer(connection));
+            #region Config
 
             services.AddSingleton(Configuration);
             services.AddCors(options =>
@@ -54,7 +57,7 @@ namespace ApiMoho
                 .AddDefaultTokenProviders();
 
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.Events = new CookieAuthenticationEvents
@@ -63,14 +66,23 @@ namespace ApiMoho
                     {
                         if (ctx.Request.Path.StartsWithSegments("/api"))
                         {
-                            ctx.Response.StatusCode = (int) System.Net.HttpStatusCode.Unauthorized;
+                            ctx.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
                         }
                         return Task.FromResult(0);
                     }
                 };
             });
 
-            // jwt
+            #endregion
+
+            //Conmands Injections
+            services.AddSingleton<IListingCommand, ListingCommand>();
+
+            //Repository Injection
+            services.AddSingleton<IListingRepository, ListingRepository>();
+
+            #region JWTSetup
+
             var audienceConfig = Configuration.GetSection("Tokens");
             var symmetricKeyAsBase64 = audienceConfig["Key"];
             var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
@@ -107,6 +119,9 @@ namespace ApiMoho
                     //o.Audience = "";
                     o.TokenValidationParameters = tokenValidationParameters;
                 });
+
+            #endregion
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

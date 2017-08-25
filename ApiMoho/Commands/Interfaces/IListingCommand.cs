@@ -6,8 +6,9 @@ using ApiMoho.Models.Dtos;
 
 namespace ApiMoho.Commands.Interfaces
 {
-    interface IListingCommand
+    public interface IListingCommand
     {
-        Task AddListingCommand(AddListingDto addListingDto);
+        Task<UserListingDto> AddListingCommand(AddListingDto addListingDto, string fullName, string userId);
+        Task<UserListingCollectionDto> GetAllListingsCommand();
     }
 }
