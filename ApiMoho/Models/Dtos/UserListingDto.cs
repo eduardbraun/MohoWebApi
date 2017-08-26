@@ -8,10 +8,10 @@ namespace ApiMoho.Models.Dtos
     public class UserListingDto
     {
         public int UserListingId { get; set; }
-        public int ListingType { get; set; }
-        public int CountryType { get; set; }
-        public int ProvinceType { get; set; }
-        public int CityType { get; set; }
+        public String ListingType { get; set; }
+        public string Country { get; set; }
+        public string Province { get; set; }
+        public string City { get; set; }
         public string OwnerId { get; set; }
         public DateTime? ListingDate { get; set; }
         public DateTime? LastUpdatedDate { get; set; }

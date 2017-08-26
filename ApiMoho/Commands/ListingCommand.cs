@@ -4,8 +4,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ApiMoho.Commands.Interfaces;
+using ApiMoho.Helper;
 using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
+using ApiMoho.Models.Enums;
 using ApiMoho.Repositories.interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -53,15 +55,16 @@ namespace ApiMoho.Commands
                 var newListing = new UserListingDto
                 {
                     Address = addListing.Address,
-                    CityType = addListing.CityType,
-                    CountryType = addListing.CountryType,
+                    City = EnumHelper.GetCityEnumString((int)addListingDto.ListingCity),
+                    Country = EnumHelper.GetCountryEnumString((int)addListingDto.ListingCountry),
+                    Province = EnumHelper.GetProvinceEnumString((int)addListingDto.ListingProvince),
                     Email = addListing.Email,
                     FullName = addListing.FullName,
                     LastUpdatedDate = addListing.LastUpdatedDate,
                     ListingDate = addListing.ListingDate,
                     ListingDescription = addListing.ListingDescription,
                     ListingTitle = addListing.ListingTitle,
-                    ListingType = addListing.ListingType,
+                    ListingType = EnumHelper.GetListingEnumString((int)addListingDto.ListingType),
                     UserListingId = addListing.UserListingId,
                     OwnerId = addListing.OwnerId
                 };
@@ -90,15 +93,16 @@ namespace ApiMoho.Commands
                     var listingDto = new UserListingDto
                     {
                         Address = listing.Address,
-                        CityType = listing.CityType,
-                        CountryType = listing.CountryType,
+                        ListingType = EnumHelper.GetListingEnumString((int)listing.ListingType),
+                        City = EnumHelper.GetCityEnumString((int)listing.CityType),
+                        Country = EnumHelper.GetCountryEnumString((int)listing.CountryType),
+                        Province = EnumHelper.GetProvinceEnumString((int)listing.ProvinceType),
                         Email = listing.Email,
                         FullName = listing.FullName,
                         LastUpdatedDate = listing.LastUpdatedDate,
                         ListingDate = listing.ListingDate,
                         ListingDescription = listing.ListingDescription,
                         ListingTitle = listing.ListingTitle,
-                        ListingType = listing.ListingType,
                         UserListingId = listing.UserListingId,
                         OwnerId = listing.OwnerId
                     };
