@@ -117,5 +117,46 @@ namespace ApiMoho.Commands
                 throw ex.GetBaseException();
             }
         }
+
+        public async Task<UserListingCollectionDto> GetAllListingsForUserCommand(string userId)
+        {
+            try
+            {
+                var listings = await _listingRepository.GetAllForUser(userId);
+
+                var allListingDto = new UserListingCollectionDto();
+                allListingDto.ListingsCollection = new List<UserListingDto>();
+
+                var lis = new List<UserListingDto>();
+
+                foreach (var listing in listings)
+                {
+                    var listingDto = new UserListingDto
+                    {
+                        Address = listing.Address,
+                        ListingType = EnumHelper.GetListingEnumString((int)listing.ListingType),
+                        City = EnumHelper.GetCityEnumString((int)listing.CityType),
+                        Country = EnumHelper.GetCountryEnumString((int)listing.CountryType),
+                        Province = EnumHelper.GetProvinceEnumString((int)listing.ProvinceType),
+                        Email = listing.Email,
+                        FullName = listing.FullName,
+                        LastUpdatedDate = listing.LastUpdatedDate,
+                        ListingDate = listing.ListingDate,
+                        ListingDescription = listing.ListingDescription,
+                        ListingTitle = listing.ListingTitle,
+                        UserListingId = listing.UserListingId,
+                        OwnerId = listing.OwnerId
+                    };
+
+                    allListingDto.ListingsCollection.Add(listingDto);
+                }
+                return allListingDto;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while constructing all user listing list: {ex}");
+                throw ex.GetBaseException();
+            }
+        }
     }
 }

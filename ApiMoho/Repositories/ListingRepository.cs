@@ -60,5 +60,22 @@ namespace ApiMoho.Repositories
                 }
             }
         }
+
+        public async Task<List<UserListings>> GetAllForUser(string ownerId)
+        {
+            using (ApiMohoContext context = new ApiMohoContext())
+            {
+                try
+                {
+                    var userListings = await context.UserListings.Where(id => id.OwnerId == ownerId).ToListAsync();
+                    return userListings;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"error while getting list from database: {ex}");
+                    throw ex.GetBaseException();
+                }
+            }
+        }
     }
 }

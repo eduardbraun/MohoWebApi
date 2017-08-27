@@ -33,7 +33,6 @@ namespace ApiMoho.Controllers
         }
         [Authorize]
         [HttpPost("NewListing")]
-        [Route("token")]
         public async Task<IActionResult> NewListing([FromBody] AddListingDto addListingDto)
         {
             try
@@ -53,7 +52,6 @@ namespace ApiMoho.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetAllListing")]
-        [Route("token")]
         public async Task<IActionResult> GetAllListings()
         {
             try
@@ -66,6 +64,26 @@ namespace ApiMoho.Controllers
             {
                 _logger.LogError($"error while creating listing: {ex}");
                 return StatusCode((int)HttpStatusCode.InternalServerError, "error while creating listing");
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetAllListingForUser")]
+        public async Task<IActionResult> GetAllListingsForUser()
+        {
+            try
+            {
+                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByEmailAsync(id);
+
+                var allListings = await _listingCommand.GetAllListingsForUserCommand(user.Id);
+
+                return Ok(allListings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting all lists for user: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting alllists for user");
             }
         }
 

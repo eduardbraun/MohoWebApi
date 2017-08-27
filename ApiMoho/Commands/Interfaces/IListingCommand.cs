@@ -10,5 +10,6 @@ namespace ApiMoho.Commands.Interfaces
     {
         Task<UserListingDto> AddListingCommand(AddListingDto addListingDto, string fullName, string userId);
         Task<UserListingCollectionDto> GetAllListingsCommand();
+        Task<UserListingCollectionDto> GetAllListingsForUserCommand(string userId);
     }
 }
