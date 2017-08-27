@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ApiMoho.Commands.Interfaces;
 using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
+using ApiMoho.Models.Request;
 using ApiMoho.Repositories.interfaces;
 using ApiMoho.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -79,6 +80,33 @@ namespace ApiMoho.Controllers
                 var allListings = await _listingCommand.GetAllListingsForUserCommand(user.Id);
 
                 return Ok(allListings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting all lists for user: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting alllists for user");
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetAllListingForUser/{userid}", Name = "GetAllListingForUser")]
+        public async Task<IActionResult> GetAllListingsForSpecificUser(string userid)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userid);
+
+                if (user != null)
+                {
+                    var allListings = await _listingCommand.GetAllListingsForUserCommand(userid);
+
+                    return Ok(allListings);
+                }
+                else
+                {
+                    _logger.LogError($"error user does not exis");
+                    return StatusCode((int)HttpStatusCode.InternalServerError, "error user does not exist");
+                }
             }
             catch (Exception ex)
             {
