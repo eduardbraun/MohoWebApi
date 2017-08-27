@@ -34,7 +34,7 @@ namespace ApiMoho.Controllers
         [Authorize]
         [HttpPost("NewListing")]
         [Route("token")]
-        public async Task<IActionResult> NewListing([FromForm] AddListingDto addListingDto)
+        public async Task<IActionResult> NewListing([FromBody] AddListingDto addListingDto)
         {
             try
             {
