@@ -23,15 +23,17 @@ namespace ApiMoho.Controllers
     public class ListingController : Controller
     {
         private ILogger<ListingController> _logger;
-        private IListingCommand  _listingCommand;
+        private IListingCommand _listingCommand;
         private readonly UserManager<UserModel> _userManager;
 
-        public ListingController(ILogger<ListingController> logger, IListingCommand listingCommand, UserManager<UserModel> userManager)
+        public ListingController(ILogger<ListingController> logger, IListingCommand listingCommand,
+            UserManager<UserModel> userManager)
         {
             _logger = logger;
             _listingCommand = listingCommand;
             _userManager = userManager;
         }
+
         [Authorize]
         [HttpPost("NewListing")]
         public async Task<IActionResult> NewListing([FromBody] AddListingDto addListingDto)
@@ -40,14 +42,15 @@ namespace ApiMoho.Controllers
             {
                 var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var user = await _userManager.FindByEmailAsync(id);
-         
-                var listing = await _listingCommand.AddListingCommand(addListingDto, user.FirstName + user.LastName, user.Id);
+
+                var listing =
+                    await _listingCommand.AddListingCommand(addListingDto, user.FirstName + user.LastName, user.Id);
                 return Ok(listing);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"error while creating listing: {ex}");
-                return StatusCode((int)HttpStatusCode.InternalServerError, "error while creating listing");
+                return StatusCode((int) HttpStatusCode.InternalServerError, "error while creating listing");
             }
         }
 
@@ -64,7 +67,7 @@ namespace ApiMoho.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"error while creating listing: {ex}");
-                return StatusCode((int)HttpStatusCode.InternalServerError, "error while creating listing");
+                return StatusCode((int) HttpStatusCode.InternalServerError, "error while creating listing");
             }
         }
 
@@ -84,7 +87,7 @@ namespace ApiMoho.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"error while getting all lists for user: {ex}");
-                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting alllists for user");
+                return StatusCode((int) HttpStatusCode.InternalServerError, "error while getting alllists for user");
             }
         }
 
@@ -105,15 +108,47 @@ namespace ApiMoho.Controllers
                 else
                 {
                     _logger.LogError($"error user does not exis");
-                    return StatusCode((int)HttpStatusCode.InternalServerError, "error user does not exist");
+                    return StatusCode((int) HttpStatusCode.InternalServerError, "error user does not exist");
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError($"error while getting all lists for user: {ex}");
-                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting alllists for user");
+                return StatusCode((int) HttpStatusCode.InternalServerError, "error while getting alllists for user");
             }
         }
 
+        [Authorize]
+        [HttpGet("UpdateListing")]
+        public async Task<IActionResult> UpdateListing([FromBody] UpdateListingRequest updateListingRequest)
+        {
+            try
+            {
+                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByEmailAsync(id);
+
+                if (user != null)
+                {
+                    if (user.Id != updateListingRequest.OwnerId)
+                    {
+                        return StatusCode((int) HttpStatusCode.InternalServerError,
+                            "you are not the owner of that listing");
+                    }
+                    var allListings = await _listingCommand.GetAllListingsForUserCommand(userid);
+
+                    return Ok(allListings);
+                }
+                else
+                {
+                    _logger.LogError($"error user does not exis");
+                    return StatusCode((int) HttpStatusCode.InternalServerError, "error user does not exist");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting all lists for user: {ex}");
+                return StatusCode((int) HttpStatusCode.InternalServerError, "error while getting alllists for user");
+            }
+        }
     }
 }

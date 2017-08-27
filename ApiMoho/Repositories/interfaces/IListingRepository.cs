@@ -13,5 +13,6 @@ namespace ApiMoho.Repositories.interfaces
         Task RemoveListing(int enity);
         Task<List<UserListings>> GetAll();
         Task<List<UserListings>> GetAllForUser(string ownerId);
+        Task<UserListings> Update(UserListings userListings, string ownerId);
     }
 }

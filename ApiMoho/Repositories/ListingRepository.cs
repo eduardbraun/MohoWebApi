@@ -77,5 +77,36 @@ namespace ApiMoho.Repositories
                 }
             }
         }
+
+        public async Task<UserListings> Update(UserListings userListings, string ownerId)
+        {
+            try
+            {
+                using (ApiMohoContext context = new ApiMohoContext())
+                {
+                    UserListings userListing = await context.UserListings.FirstAsync(id => id.UserListingId == userListings.UserListingId && id.OwnerId == ownerId);
+
+                    userListing.CityType = userListings.CityType;
+                    userListing.ListingType = userListings.ListingType;
+                    userListing.CountryType = userListings.CountryType;
+                    userListing.ProvinceType = userListings.ProvinceType;
+                    userListing.LastUpdatedDate = DateTime.Now;
+                    userListing.ListingDescription = userListings.ListingDescription;
+                    userListing.ListingTitle = userListings.ListingTitle;
+                    userListing.PhoneNumber = userListings.PhoneNumber;
+                    userListing.Email = userListings.Email;
+                    userListing.FullName = userListings.FullName;
+                    userListing.Address = userListings.Address;
+
+                    await context.SaveChangesAsync();
+
+                    return userListing;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
     }
 }

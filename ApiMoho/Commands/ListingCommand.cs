@@ -8,6 +8,7 @@ using ApiMoho.Helper;
 using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
 using ApiMoho.Models.Enums;
+using ApiMoho.Models.Request;
 using ApiMoho.Repositories.interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -50,21 +51,19 @@ namespace ApiMoho.Commands
 
                 var addListing = await _listingRepository.AddListing(listing);
 
-                var a = addListing;
-
                 var newListing = new UserListingDto
                 {
                     Address = addListing.Address,
-                    City = EnumHelper.GetCityEnumString((int)addListingDto.ListingCity),
-                    Country = EnumHelper.GetCountryEnumString((int)addListingDto.ListingCountry),
-                    Province = EnumHelper.GetProvinceEnumString((int)addListingDto.ListingProvince),
+                    City = EnumHelper.GetCityEnumString((int)addListing.CityType),
+                    Country = EnumHelper.GetCountryEnumString((int)addListing.CountryType),
+                    Province = EnumHelper.GetProvinceEnumString((int)addListing.ProvinceType),
                     Email = addListing.Email,
                     FullName = addListing.FullName,
                     LastUpdatedDate = addListing.LastUpdatedDate,
                     ListingDate = addListing.ListingDate,
                     ListingDescription = addListing.ListingDescription,
                     ListingTitle = addListing.ListingTitle,
-                    ListingType = EnumHelper.GetListingEnumString((int)addListingDto.ListingType),
+                    ListingType = EnumHelper.GetListingEnumString((int)addListing.ListingType),
                     UserListingId = addListing.UserListingId,
                     OwnerId = addListing.OwnerId
                 };
@@ -156,6 +155,54 @@ namespace ApiMoho.Commands
             {
                 _logger.LogError($"error while constructing all user listing list: {ex}");
                 throw ex.GetBaseException();
+            }
+        }
+
+        public async Task<UserListingDto> UpdateListing(UpdateListingRequest updateListingRequest, string userId)
+        {
+            try
+            {
+                var listing = new UserListings
+                {
+                    CountryType = (int)updateListingRequest.ListingCountry,
+                    ProvinceType = (int)updateListingRequest.ListingProvince,
+                    CityType = (int)updateListingRequest.ListingCity,
+                    ListingType = (int)updateListingRequest.ListingType,
+                    ListingDescription = updateListingRequest.ListingDescription,
+                    ListingTitle = updateListingRequest.ListingTitle,
+                    Address = updateListingRequest.Address,
+                    Email = updateListingRequest.Email,
+                    PhoneNumber = updateListingRequest.PhoneNumber,
+                    FullName = updateListingRequest.FullName,
+                    OwnerId = updateListingRequest.OwnerId,
+                    LastUpdatedDate = DateTime.Today
+                };
+
+                var addListing = await _listingRepository.Update(listing, userId);
+               
+
+                var newListing = new UserListingDto
+                {
+                    Address = addListing.Address,
+                    City = EnumHelper.GetCityEnumString((int)addListing.CityType),
+                    Country = EnumHelper.GetCountryEnumString((int)addListing.CountryType),
+                    Province = EnumHelper.GetProvinceEnumString((int)addListing.ProvinceType),
+                    Email = addListing.Email,
+                    FullName = addListing.FullName,
+                    LastUpdatedDate = addListing.LastUpdatedDate,
+                    ListingDate = addListing.ListingDate,
+                    ListingDescription = addListing.ListingDescription,
+                    ListingTitle = addListing.ListingTitle,
+                    ListingType = EnumHelper.GetListingEnumString((int)addListing.ListingType),
+                    UserListingId = addListing.UserListingId,
+                    OwnerId = addListing.OwnerId
+                };
+
+                return newListing;
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
             }
         }
     }
