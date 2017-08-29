@@ -13,18 +13,14 @@ namespace ApiMoho.Helper
         {
             switch (num)
             {
-                case (int) CityEnum.Alton:
-                    return "Altona";
-                case (int) CityEnum.Winkler:
-                    return "Winkler";
                 case (int) CityEnum.Winnipeg:
                     return "Winnipeg";
-                case (int) CityEnum.Carman:
-                    return "Carman";
-                case (int) CityEnum.Morden:
-                    return "Morden";
                 case (int) CityEnum.Brandon:
                     return "Brandon";
+                case (int) CityEnum.CarmanArea:
+                    return "Carman Area";
+                case (int) CityEnum.PembinaValley:
+                    return "Pembina Valley";
                 default:
                     return "Other";
             }
@@ -62,16 +58,12 @@ namespace ApiMoho.Helper
             {
                 case (int) ListingTypeEnum.Car:
                     return "Cars and Trucks";
-                case (int)ListingTypeEnum.Construction:
-                    return "Construction and Maintaince";
-                case (int)ListingTypeEnum.Garden:
-                    return "Garden work and Misc";
-                case (int)ListingTypeEnum.House:
-                    return "House work/renovation";
-                case (int)ListingTypeEnum.Other:
-                    return "Other";
-                case (int)ListingTypeEnum.Renovation:
-                    return "Renovation";
+                case (int)ListingTypeEnum.HomeRenovation:
+                    return "Home Renovation";
+                case (int)ListingTypeEnum.Plumbing:
+                    return "Plumbing";
+                case (int)ListingTypeEnum.Repairs:
+                    return "Repairs";
                 default:
                     return "Other";
             }
@@ -79,118 +71,82 @@ namespace ApiMoho.Helper
 
         public static int GetListingEnumInt(string name)
         {
-            try
+            if (name.Equals("Cars and Trucks"))
             {
-                switch (Enum.Parse(typeof(CityEnum), name))
-                {
-                    case CityEnum.Alton:
-                        return (int)CityEnum.Alton;
-                    case CityEnum.Winnipeg:
-                        return (int)CityEnum.Winnipeg;
-                    case CityEnum.Brandon:
-                        return (int)CityEnum.Brandon;
-                    case CityEnum.Carman:
-                        return (int)CityEnum.Carman;
-                    case CityEnum.Winkler:
-                        return (int)CityEnum.Winkler;
-                    case CityEnum.Morden:
-                        return (int)CityEnum.Morden;
-                    default:
-                        return (int)CityEnum.Other;
-                }
+                return (int)ListingTypeEnum.Car;
             }
-            catch (Exception ex)
+            if (name.Equals("Home Renovation"))
             {
-                throw ex.InnerException;
+                return (int)ListingTypeEnum.HomeRenovation;
+            }
+            if (name.Equals("Plumbing"))
+            {
+                return (int)ListingTypeEnum.Plumbing;
+            }
+            if (name.Equals("Repairs"))
+            {
+                return (int) ListingTypeEnum.Repairs;
+            }
+            else
+            {
+                return 0;
             }
         }
-
 
         public static int GetCountryEnumInt(string name)
         {
-            try
+            if (name.Equals("Canada"))
             {
-                switch (Enum.Parse(typeof(CityEnum), name))
-                {
-                    case CityEnum.Alton:
-                        return (int)CityEnum.Alton;
-                    case CityEnum.Winnipeg:
-                        return (int)CityEnum.Winnipeg;
-                    case CityEnum.Brandon:
-                        return (int)CityEnum.Brandon;
-                    case CityEnum.Carman:
-                        return (int)CityEnum.Carman;
-                    case CityEnum.Winkler:
-                        return (int)CityEnum.Winkler;
-                    case CityEnum.Morden:
-                        return (int)CityEnum.Morden;
-                    default:
-                        return (int)CityEnum.Other;
-                }
+                return (int) CountryEnum.Canada;
             }
-            catch (Exception ex)
+            else
             {
-                throw ex.InnerException;
+                return 0;
             }
         }
-
 
         public static int GetProvinceEnumInt(string name)
         {
-            try
+            if (name.Equals("Alberta"))
             {
-                switch (Enum.Parse(typeof(CityEnum), name))
-                {
-                    case CityEnum.Alton:
-                        return (int)CityEnum.Alton;
-                    case CityEnum.Winnipeg:
-                        return (int)CityEnum.Winnipeg;
-                    case CityEnum.Brandon:
-                        return (int)CityEnum.Brandon;
-                    case CityEnum.Carman:
-                        return (int)CityEnum.Carman;
-                    case CityEnum.Winkler:
-                        return (int)CityEnum.Winkler;
-                    case CityEnum.Morden:
-                        return (int)CityEnum.Morden;
-                    default:
-                        return (int)CityEnum.Other;
-                }
+                return (int)ProvinceEnum.Alberta;
             }
-            catch (Exception ex)
+            if (name.Equals("Manitoba"))
             {
-                throw ex.InnerException;
+                return (int)ProvinceEnum.Manitoba;
+            }
+            if (name.Equals("Saskatchewan"))
+            {
+                return (int)ProvinceEnum.Saskatchewan;
+            }
+            else
+            {
+                return 0;
             }
         }
 
-
         public static int GetCityEnumInt(string name)
         {
-            try
+            if (name.Equals("Winnipeg"))
             {
-                switch (Enum.Parse(typeof(CityEnum), name))
-                {
-                    case CityEnum.Alton:
-                        return (int) CityEnum.Alton;
-                    case CityEnum.Winnipeg:
-                        return (int) CityEnum.Winnipeg;
-                    case CityEnum.Brandon:
-                        return (int) CityEnum.Brandon;
-                    case CityEnum.Carman:
-                        return (int) CityEnum.Carman;
-                    case CityEnum.Winkler:
-                        return (int) CityEnum.Winkler;
-                    case CityEnum.Morden:
-                        return (int) CityEnum.Morden;
-                    default:
-                        return (int) CityEnum.Other;
-                }
+                return (int)CityEnum.Winnipeg;
             }
-            catch (Exception ex)
+            if (name.Equals("Brandon"))
             {
-                throw ex.InnerException;
+                return (int)CityEnum.Brandon;
             }
-
+            if (name.Equals("Carman Area"))
+            {
+                return (int)CityEnum.CarmanArea;
+            }
+            if (name.Equals("Prembina Valley"))
+            {
+                return (int)CityEnum.PembinaValley;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

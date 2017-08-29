@@ -15,6 +15,7 @@ namespace ApiMoho.Models
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<CitySeleectionTable> CitySeleectionTable { get; set; }
         public virtual DbSet<CountrySelectionTable> CountrySelectionTable { get; set; }
+        public virtual DbSet<ListingSelectionTable> ListingSelectionTable { get; set; }
         public virtual DbSet<ProvinceSelectionTable> ProvinceSelectionTable { get; set; }
         public virtual DbSet<UserListings> UserListings { get; set; }
 
@@ -22,7 +23,6 @@ namespace ApiMoho.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=ApiMoho;Trusted_Connection=True;");
             }
         }
@@ -149,6 +149,14 @@ namespace ApiMoho.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<ListingSelectionTable>(entity =>
+            {
+                entity.Property(e => e.ListingName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<ProvinceSelectionTable>(entity =>
             {
                 entity.Property(e => e.ProvinceName)
@@ -170,8 +178,18 @@ namespace ApiMoho.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CityName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CountryName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Email)
-                    .HasMaxLength(50)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.FullName)
@@ -183,7 +201,12 @@ namespace ApiMoho.Models
                 entity.Property(e => e.ListingDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ListingDescription)
-                    .HasMaxLength(50)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ListingName)
+                    .IsRequired()
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ListingTitle)
@@ -197,6 +220,11 @@ namespace ApiMoho.Models
 
                 entity.Property(e => e.PhoneNumber)
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProvinceName)
+                    .IsRequired()
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Owner)

@@ -150,5 +150,22 @@ namespace ApiMoho.Controllers
                 return StatusCode((int) HttpStatusCode.InternalServerError, "error while getting alllists for user");
             }
         }
+
+        [AllowAnonymous]
+        [HttpGet("GetFilterOptions")]
+        public async Task<IActionResult> GetFilterOptions()
+        {
+            try
+            {
+                var filterList = await _listingCommand.GetFilterList();
+
+                return Ok(filterList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting filter list {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting filter list");
+            }
+        }
     }
 }

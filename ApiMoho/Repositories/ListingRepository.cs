@@ -86,10 +86,14 @@ namespace ApiMoho.Repositories
                 {
                     UserListings userListing = await context.UserListings.FirstAsync(id => id.UserListingId == userListings.UserListingId && id.OwnerId == ownerId);
 
-                    userListing.CityType = userListings.CityType;
-                    userListing.ListingType = userListings.ListingType;
-                    userListing.CountryType = userListings.CountryType;
-                    userListing.ProvinceType = userListings.ProvinceType;
+                    userListing.CityRefId = userListings.CityRefId;
+                    userListing.ListingTypeRefId = userListings.ListingTypeRefId;
+                    userListing.CountryRefId = userListings.CountryRefId;
+                    userListing.ProvinceRefId = userListings.ProvinceRefId;
+                    userListing.ListingName = userListings.ListingName;
+                    userListing.CountryName = userListings.CountryName;
+                    userListing.ProvinceName = userListings.ProvinceName;
+                    userListing.CityName = userListings.CityName;
                     userListing.LastUpdatedDate = DateTime.Now;
                     userListing.ListingDescription = userListings.ListingDescription;
                     userListing.ListingTitle = userListings.ListingTitle;
@@ -105,7 +109,80 @@ namespace ApiMoho.Repositories
             }
             catch (Exception ex)
             {
-                throw ex.InnerException;
+                _logger.LogError($"error while updateing listing from database: {ex}");
+                throw ex.GetBaseException();
+            }
+        }
+
+        public async Task<List<CountrySelectionTable>> GetAllCounties()
+        {
+            try
+            {
+                using (ApiMohoContext context = new ApiMohoContext())
+                {
+                    var countries = await context.CountrySelectionTable.ToListAsync();
+
+                    return countries;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting all countries from database: {ex}");
+                throw ex.GetBaseException();
+            }
+        }
+
+        public async Task<List<ProvinceSelectionTable>> GetAllProvinces()
+        {
+            try
+            {
+                using (ApiMohoContext context = new ApiMohoContext())
+                {
+                    var provinces = await context.ProvinceSelectionTable.ToListAsync();
+
+                    return provinces;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting all provinces from database: {ex}");
+                throw ex.GetBaseException();
+            }
+        }
+
+        public async Task<List<CitySeleectionTable>> GetAllCities()
+        {
+            try
+            {
+                using (ApiMohoContext context = new ApiMohoContext())
+                {
+                    var cities = await context.CitySeleectionTable.ToListAsync();
+
+                    return cities;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting all cities from database: {ex}");
+                throw ex.GetBaseException();
+            }
+        }
+
+        public async Task<List<ListingSelectionTable>> GetAllListings()
+        {
+            try
+            {
+                using (ApiMohoContext context = new ApiMohoContext())
+                {
+                    var listings = await context.ListingSelectionTable.ToListAsync();
+
+                    return listings;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting all listings from database: {ex}");
+                throw ex.GetBaseException();
             }
         }
     }

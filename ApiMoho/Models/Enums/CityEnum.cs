@@ -7,13 +7,10 @@ namespace ApiMoho.Models.Enums
 {
     public enum CityEnum
     {
-        Winkler = 1,
+        PembinaValley = 1,
         Winnipeg = 2,
-        Carman = 3,
-        Morden = 4,
-        Alton = 5,
-        Brandon = 6,
-        Other
+        CarmanArea = 3,
+        Brandon = 4
     }
 }
 

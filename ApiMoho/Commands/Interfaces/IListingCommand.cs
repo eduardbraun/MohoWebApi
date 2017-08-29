@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiMoho.Models.Dtos;
 using ApiMoho.Models.Request;
+using ApiMoho.Models.Response;
 
 namespace ApiMoho.Commands.Interfaces
 {
@@ -13,5 +14,6 @@ namespace ApiMoho.Commands.Interfaces
         Task<UserListingCollectionDto> GetAllListingsCommand();
         Task<UserListingCollectionDto> GetAllListingsForUserCommand(string userId);
         Task<UserListingDto> UpdateListing(UpdateListingRequest updateListingRequest,string userId);
+        Task<GetFilterListResponse> GetFilterList();
     }
 }
