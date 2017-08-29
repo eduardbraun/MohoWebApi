@@ -12,7 +12,8 @@ namespace ApiMoho.Models.Enums
         Carman = 3,
         Morden = 4,
         Alton = 5,
-        Brandon = 6
+        Brandon = 6,
+        Other
     }
 }
 

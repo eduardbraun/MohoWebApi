@@ -119,7 +119,7 @@ namespace ApiMoho.Controllers
         }
 
         [Authorize]
-        [HttpGet("UpdateListing")]
+        [HttpPost("UpdateListing")]
         public async Task<IActionResult> UpdateListing([FromBody] UpdateListingRequest updateListingRequest)
         {
             try
@@ -134,7 +134,7 @@ namespace ApiMoho.Controllers
                         return StatusCode((int) HttpStatusCode.InternalServerError,
                             "you are not the owner of that listing");
                     }
-                    var allListings = await _listingCommand.GetAllListingsForUserCommand(userid);
+                    var allListings = await _listingCommand.UpdateListing(updateListingRequest, user.Id);
 
                     return Ok(allListings);
                 }

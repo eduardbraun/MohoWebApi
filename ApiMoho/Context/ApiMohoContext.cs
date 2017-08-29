@@ -13,13 +13,17 @@ namespace ApiMoho.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual DbSet<CitySeleectionTable> CitySeleectionTable { get; set; }
+        public virtual DbSet<CountrySelectionTable> CountrySelectionTable { get; set; }
+        public virtual DbSet<ProvinceSelectionTable> ProvinceSelectionTable { get; set; }
         public virtual DbSet<UserListings> UserListings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-3RGOS1J\SQLEXPRESS;Database=ApiMoho;Trusted_Connection=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=ApiMoho;Trusted_Connection=True;");
             }
         }
 
@@ -117,6 +121,45 @@ namespace ApiMoho.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<CitySeleectionTable>(entity =>
+            {
+                entity.Property(e => e.RegionName)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.CountryRef)
+                    .WithMany(p => p.CitySeleectionTable)
+                    .HasForeignKey(d => d.CountryRefId)
+                    .HasConstraintName("FK_CityCountryRefId");
+
+                entity.HasOne(d => d.ProvinceRef)
+                    .WithMany(p => p.CitySeleectionTable)
+                    .HasForeignKey(d => d.ProvinceRefId)
+                    .HasConstraintName("FK_CityProvinceRefId");
+            });
+
+            modelBuilder.Entity<CountrySelectionTable>(entity =>
+            {
+                entity.Property(e => e.CountryName)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ProvinceSelectionTable>(entity =>
+            {
+                entity.Property(e => e.ProvinceName)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.CountryRef)
+                    .WithMany(p => p.ProvinceSelectionTable)
+                    .HasForeignKey(d => d.CountryRefId)
+                    .HasConstraintName("FK_ProvinceCountryRefId");
             });
 
             modelBuilder.Entity<UserListings>(entity =>

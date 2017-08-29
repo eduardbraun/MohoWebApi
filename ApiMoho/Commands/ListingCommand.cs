@@ -162,12 +162,13 @@ namespace ApiMoho.Commands
         {
             try
             {
+                CountryEnum c;
                 var listing = new UserListings
                 {
-                    CountryType = (int)updateListingRequest.ListingCountry,
-                    ProvinceType = (int)updateListingRequest.ListingProvince,
-                    CityType = (int)updateListingRequest.ListingCity,
-                    ListingType = (int)updateListingRequest.ListingType,
+                    CountryType = EnumHelper.GetCityEnumInt(updateListingRequest.ListingCountry),
+                    ProvinceType = EnumHelper.GetCityEnumInt(updateListingRequest.ListingCountry),
+                    CityType = EnumHelper.GetCityEnumInt(updateListingRequest.ListingCountry),
+                    ListingType = EnumHelper.GetCityEnumInt(updateListingRequest.ListingCountry),
                     ListingDescription = updateListingRequest.ListingDescription,
                     ListingTitle = updateListingRequest.ListingTitle,
                     Address = updateListingRequest.Address,

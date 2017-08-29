@@ -76,5 +76,121 @@ namespace ApiMoho.Helper
                     return "Other";
             }
         }
+
+        public static int GetListingEnumInt(string name)
+        {
+            try
+            {
+                switch (Enum.Parse(typeof(CityEnum), name))
+                {
+                    case CityEnum.Alton:
+                        return (int)CityEnum.Alton;
+                    case CityEnum.Winnipeg:
+                        return (int)CityEnum.Winnipeg;
+                    case CityEnum.Brandon:
+                        return (int)CityEnum.Brandon;
+                    case CityEnum.Carman:
+                        return (int)CityEnum.Carman;
+                    case CityEnum.Winkler:
+                        return (int)CityEnum.Winkler;
+                    case CityEnum.Morden:
+                        return (int)CityEnum.Morden;
+                    default:
+                        return (int)CityEnum.Other;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+
+
+        public static int GetCountryEnumInt(string name)
+        {
+            try
+            {
+                switch (Enum.Parse(typeof(CityEnum), name))
+                {
+                    case CityEnum.Alton:
+                        return (int)CityEnum.Alton;
+                    case CityEnum.Winnipeg:
+                        return (int)CityEnum.Winnipeg;
+                    case CityEnum.Brandon:
+                        return (int)CityEnum.Brandon;
+                    case CityEnum.Carman:
+                        return (int)CityEnum.Carman;
+                    case CityEnum.Winkler:
+                        return (int)CityEnum.Winkler;
+                    case CityEnum.Morden:
+                        return (int)CityEnum.Morden;
+                    default:
+                        return (int)CityEnum.Other;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+
+
+        public static int GetProvinceEnumInt(string name)
+        {
+            try
+            {
+                switch (Enum.Parse(typeof(CityEnum), name))
+                {
+                    case CityEnum.Alton:
+                        return (int)CityEnum.Alton;
+                    case CityEnum.Winnipeg:
+                        return (int)CityEnum.Winnipeg;
+                    case CityEnum.Brandon:
+                        return (int)CityEnum.Brandon;
+                    case CityEnum.Carman:
+                        return (int)CityEnum.Carman;
+                    case CityEnum.Winkler:
+                        return (int)CityEnum.Winkler;
+                    case CityEnum.Morden:
+                        return (int)CityEnum.Morden;
+                    default:
+                        return (int)CityEnum.Other;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+
+
+        public static int GetCityEnumInt(string name)
+        {
+            try
+            {
+                switch (Enum.Parse(typeof(CityEnum), name))
+                {
+                    case CityEnum.Alton:
+                        return (int) CityEnum.Alton;
+                    case CityEnum.Winnipeg:
+                        return (int) CityEnum.Winnipeg;
+                    case CityEnum.Brandon:
+                        return (int) CityEnum.Brandon;
+                    case CityEnum.Carman:
+                        return (int) CityEnum.Carman;
+                    case CityEnum.Winkler:
+                        return (int) CityEnum.Winkler;
+                    case CityEnum.Morden:
+                        return (int) CityEnum.Morden;
+                    default:
+                        return (int) CityEnum.Other;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+
+        }
     }
 }

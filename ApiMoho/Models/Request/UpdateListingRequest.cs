@@ -16,13 +16,13 @@ namespace ApiMoho.Models.Request
         [Required]
         public string FullName { get; set; }
         [Required]
-        public ListingTypeEnum ListingType { get; set; }
+        public string ListingType { get; set; }
         [Required]
-        public CountryEnum ListingCountry { get; set; }
+        public string ListingCountry { get; set; }
         [Required]
-        public ProvinceEnum ListingProvince { get; set; }
+        public string ListingProvince { get; set; }
         [Required]
-        public CityEnum ListingCity { get; set; }
+        public string ListingCity { get; set; }
         [Required]
         public string ListingTitle { get; set; }
         [Required]

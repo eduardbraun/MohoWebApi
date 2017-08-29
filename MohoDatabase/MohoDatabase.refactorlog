@@ -7,4 +7,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="UserListingId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="05c3699b-9947-4b7b-b039-7134efeb7ea8" ChangeDateTime="08/28/2017 19:13:34">
+    <Property Name="ElementName" Value="[dbo].[CountrySelectionTable].[UserListingId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CountrySelectionTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b6c206a9-15b3-46f1-869f-7d77896288a1" ChangeDateTime="08/28/2017 19:16:56">
+    <Property Name="ElementName" Value="[dbo].[ProvinceSelecetionTable].[ListingType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProvinceSelecetionTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProvinceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="32da0a46-3531-4312-a837-783bbf0e095b" ChangeDateTime="08/28/2017 19:56:55">
+    <Property Name="ElementName" Value="[dbo].[CitySeleectionTable].[ProvinceName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CitySeleectionTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RegionName" />
+  </Operation>
 </Operations>

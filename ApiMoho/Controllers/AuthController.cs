@@ -85,7 +85,7 @@ namespace ApiMoho.Controllers
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user == null)
                 {
-                    return Unauthorized();
+                    return StatusCode((int)HttpStatusCode.Unauthorized, "Username or Password is wrong. Do you have an account?");
                 }
                 if (_passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password) ==
                     PasswordVerificationResult.Success)
@@ -118,7 +118,7 @@ namespace ApiMoho.Controllers
                         expiration = token.ValidTo
                     });
                 }
-                return Unauthorized();
+                return StatusCode((int)HttpStatusCode.Unauthorized, "Username or Password is wrong. Do you have an account?");
             }
             catch (Exception ex)
             {
