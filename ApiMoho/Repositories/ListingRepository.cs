@@ -185,5 +185,23 @@ namespace ApiMoho.Repositories
                 throw ex.GetBaseException();
             }
         }
+
+        public async Task DeleteListing(int listingId, string ownderId)
+        {
+            using (var context = new ApiMohoContext())
+            {
+                var listing = await context.UserListings.FindAsync();
+                if (listing != null)
+                {
+                    var del = context.UserListings.Remove(listing);
+
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception("No Listing was found by the given id {listingId}");
+                }
+            }
+        }
     }
 }

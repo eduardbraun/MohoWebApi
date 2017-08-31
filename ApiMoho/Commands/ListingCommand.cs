@@ -220,6 +220,20 @@ namespace ApiMoho.Commands
             }
         }
 
+        public async Task DeleteListing(DeleteListingRequest deleteListingRequest, string userId)
+        {
+            try
+            {
+                await _listingRepository.DeleteListing(deleteListingRequest.UserListingId,
+                    deleteListingRequest.OwnerId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public async Task<GetFilterListResponse> GetFilterList()
         {
             try

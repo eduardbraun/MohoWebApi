@@ -167,5 +167,38 @@ namespace ApiMoho.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting filter list");
             }
         }
+
+        [Authorize]
+        [HttpPost("DeleteListing")]
+        public async Task<IActionResult> DeleteListing([FromBody] DeleteListingRequest deleteListingRequest)
+        {
+            try
+            {
+                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByEmailAsync(id);
+
+                if (user != null)
+                {
+                    if (user.Id != deleteListingRequest.OwnerId)
+                    {
+                        return StatusCode((int)HttpStatusCode.InternalServerError,
+                            "you are not the owner of that listing");
+                    }
+                    await _listingCommand.DeleteListing(deleteListingRequest, user.Id);
+
+                    return Ok("Successfully Removed Listing");
+                }
+                else
+                {
+                    _logger.LogError($"error user does not exis");
+                    return StatusCode((int)HttpStatusCode.InternalServerError, "error user does not exist");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting all lists for user: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting alllists for user");
+            }
+        }
     }
 }

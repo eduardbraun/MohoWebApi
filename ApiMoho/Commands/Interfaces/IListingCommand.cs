@@ -14,6 +14,7 @@ namespace ApiMoho.Commands.Interfaces
         Task<UserListingCollectionDto> GetAllListingsCommand();
         Task<UserListingCollectionDto> GetAllListingsForUserCommand(string userId);
         Task<UserListingDto> UpdateListing(UpdateListingRequest updateListingRequest,string userId);
+        Task DeleteListing(DeleteListingRequest deleteListingRequest,string userId);
         Task<GetFilterListResponse> GetFilterList();
     }
 }
