@@ -19,5 +19,6 @@ namespace ApiMoho.Repositories.interfaces
         Task<List<CitySeleectionTable>> GetAllCities();
         Task<List<ListingSelectionTable>> GetAllListings();
         Task DeleteListing(int listingId, string ownderId);
+        Task SetListingStatus(int listingId, string ownderId, bool enabled);
     }
 }

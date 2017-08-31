@@ -200,5 +200,38 @@ namespace ApiMoho.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting alllists for user");
             }
         }
+
+        [Authorize]
+        [HttpPost("SetListingEnabled")]
+        public async Task<IActionResult> SetListingEnabled([FromBody] SetListingEnabledRequest setListingEnabledRequest)
+        {
+            try
+            {
+                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByEmailAsync(id);
+
+                if (user != null)
+                {
+                    if (user.Id != setListingEnabledRequest.OwnerId)
+                    {
+                        return StatusCode((int)HttpStatusCode.InternalServerError,
+                            "you are not the owner of that listing");
+                    }
+                    await _listingCommand.SetListingStatus(setListingEnabledRequest, user.Id);
+
+                    return Ok("Successfully set listing status");
+                }
+                else
+                {
+                    _logger.LogError($"error user does not exis");
+                    return StatusCode((int)HttpStatusCode.InternalServerError, "error user does not exist");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while updated the listing: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while updating the listing");
+            }
+        }
     }
 }

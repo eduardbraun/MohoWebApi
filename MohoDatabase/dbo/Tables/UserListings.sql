@@ -20,6 +20,7 @@
     [CountryRefId] INT NULL, 
     [ProvinceRefId] INT NULL, 
     [CityRefId] INT NULL, 
+    [ListingEnabled] BIT NOT NULL default 1, 
     CONSTRAINT [PK_UserListing] PRIMARY KEY ([UserListingId]),
     CONSTRAINT [FK_OwnerId] FOREIGN KEY (OwnerId) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
   

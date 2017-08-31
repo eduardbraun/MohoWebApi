@@ -39,18 +39,13 @@ namespace ApiMoho.Repositories
             }
         }
 
-        public async Task RemoveListing(int enity)
-        {
-     
-        }
-
         public async Task<List<UserListings>> GetAll()
         {
             using (ApiMohoContext context = new ApiMohoContext())
             {
                 try
                 {
-                    var userListings = context.UserListings.ToList();
+                    var userListings = await context.UserListings.Where(a=> a.ListingEnabled == true).ToListAsync();
                     return userListings;
                 }
                 catch (Exception ex)
@@ -175,7 +170,6 @@ namespace ApiMoho.Repositories
                 using (ApiMohoContext context = new ApiMohoContext())
                 {
                     var listings = await context.ListingSelectionTable.ToListAsync();
-
                     return listings;
                 }
             }
@@ -190,12 +184,30 @@ namespace ApiMoho.Repositories
         {
             using (var context = new ApiMohoContext())
             {
-                var listing = await context.UserListings.FindAsync();
+                var listing = await context.UserListings.FindAsync(listingId);
                 if (listing != null)
                 {
                     var del = context.UserListings.Remove(listing);
 
                     await context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception("No Listing was found by the given id {listingId}");
+                }
+            }
+        }
+
+        public async Task SetListingStatus(int listingId, string ownderId, bool enabled)
+        {
+            using (var context = new ApiMohoContext())
+            {
+                var listing = await context.UserListings.FindAsync(listingId);
+                if (listing != null)
+                {
+                    listing.ListingEnabled = enabled;
+
+                   await context.SaveChangesAsync();
                 }
                 else
                 {

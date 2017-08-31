@@ -24,6 +24,7 @@ namespace ApiMoho.Models
         public int? CountryRefId { get; set; }
         public int? ProvinceRefId { get; set; }
         public int? CityRefId { get; set; }
+        public bool? ListingEnabled { get; set; }
 
         public AspNetUsers Owner { get; set; }
     }

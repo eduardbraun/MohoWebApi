@@ -22,33 +22,36 @@ namespace ApiMoho.Commands
         private ILogger<ListingCommand> _logger;
         private IListingRepository _listingRepository;
         private IHttpContextAccessor _httpContextAccessor;
-        public ListingCommand(IListingRepository listingRepository, IHttpContextAccessor httpContextAccessor, ILogger<ListingCommand> logger)
+
+        public ListingCommand(IListingRepository listingRepository, IHttpContextAccessor httpContextAccessor,
+            ILogger<ListingCommand> logger)
         {
             _httpContextAccessor = httpContextAccessor;
             _listingRepository = listingRepository;
             _logger = logger;
         }
 
-        public async Task<UserListingDto> AddListingCommand(AddListingDto addListingDto, string UserFullName, string UserId)
+        public async Task<UserListingDto> AddListingCommand(AddListingDto addListingDto, string UserFullName,
+            string UserId)
         {
             try
             {
                 var listing = new UserListings
                 {
-                    CountryRefId = (int)addListingDto.ListingCountry,
-                    ProvinceRefId = (int)addListingDto.ListingProvince,
-                    CityRefId = (int)addListingDto.ListingCity,
-                    ListingTypeRefId = (int)addListingDto.ListingType,
-                    CountryName = EnumHelper.GetCityEnumString((int)addListingDto.ListingCountry),
-                    ProvinceName = EnumHelper.GetProvinceEnumString((int)addListingDto.ListingProvince),
-                    CityName = EnumHelper.GetCityEnumString((int)addListingDto.ListingCity),
-                    ListingName = EnumHelper.GetListingEnumString((int)addListingDto.ListingType),
+                    CountryRefId = (int) addListingDto.ListingCountry,
+                    ProvinceRefId = (int) addListingDto.ListingProvince,
+                    CityRefId = (int) addListingDto.ListingCity,
+                    ListingTypeRefId = (int) addListingDto.ListingType,
+                    CountryName = EnumHelper.GetCityEnumString((int) addListingDto.ListingCountry),
+                    ProvinceName = EnumHelper.GetProvinceEnumString((int) addListingDto.ListingProvince),
+                    CityName = EnumHelper.GetCityEnumString((int) addListingDto.ListingCity),
+                    ListingName = EnumHelper.GetListingEnumString((int) addListingDto.ListingType),
                     ListingDescription = addListingDto.ListingDescription,
                     ListingTitle = addListingDto.ListingTitle,
                     Address = addListingDto.Address,
                     Email = addListingDto.Email,
                     PhoneNumber = addListingDto.PhoneNumber,
-                    FullName = UserFullName,
+                    FullName = addListingDto.FullName,
                     OwnerId = UserId,
                     ListingDate = DateTime.Today,
                     LastUpdatedDate = DateTime.Today
@@ -59,9 +62,9 @@ namespace ApiMoho.Commands
                 var newListing = new UserListingDto
                 {
                     Address = addListing.Address,
-                    City = EnumHelper.GetCityEnumString((int)addListing.CityRefId),
-                    Country = EnumHelper.GetCountryEnumString((int)addListing.CountryRefId),
-                    Province = EnumHelper.GetProvinceEnumString((int)addListing.ProvinceRefId),
+                    City = EnumHelper.GetCityEnumString((int) addListing.CityRefId),
+                    Country = EnumHelper.GetCountryEnumString((int) addListing.CountryRefId),
+                    Province = EnumHelper.GetProvinceEnumString((int) addListing.ProvinceRefId),
                     Email = addListing.Email,
                     FullName = addListing.FullName,
                     PhoneNumber = addListing.PhoneNumber,
@@ -69,9 +72,10 @@ namespace ApiMoho.Commands
                     ListingDate = addListing.ListingDate,
                     ListingDescription = addListing.ListingDescription,
                     ListingTitle = addListing.ListingTitle,
-                    ListingType = EnumHelper.GetListingEnumString((int)addListing.ListingTypeRefId),
+                    ListingType = EnumHelper.GetListingEnumString((int) addListing.ListingTypeRefId),
                     UserListingId = addListing.UserListingId,
-                    OwnerId = addListing.OwnerId
+                    OwnerId = addListing.OwnerId,
+                    ListingEnabled = addListing.ListingEnabled
                 };
 
                 return newListing;
@@ -98,10 +102,10 @@ namespace ApiMoho.Commands
                     var listingDto = new UserListingDto
                     {
                         Address = listing.Address,
-                        ListingType = EnumHelper.GetListingEnumString((int)listing.ListingTypeRefId),
-                        City = EnumHelper.GetCityEnumString((int)listing.CityRefId),
-                        Country = EnumHelper.GetCountryEnumString((int)listing.CountryRefId),
-                        Province = EnumHelper.GetProvinceEnumString((int)listing.ProvinceRefId),
+                        ListingType = EnumHelper.GetListingEnumString((int) listing.ListingTypeRefId),
+                        City = EnumHelper.GetCityEnumString((int) listing.CityRefId),
+                        Country = EnumHelper.GetCountryEnumString((int) listing.CountryRefId),
+                        Province = EnumHelper.GetProvinceEnumString((int) listing.ProvinceRefId),
                         Email = listing.Email,
                         FullName = listing.FullName,
                         PhoneNumber = listing.PhoneNumber,
@@ -110,7 +114,8 @@ namespace ApiMoho.Commands
                         ListingDescription = listing.ListingDescription,
                         ListingTitle = listing.ListingTitle,
                         UserListingId = listing.UserListingId,
-                        OwnerId = listing.OwnerId
+                        OwnerId = listing.OwnerId,
+                        ListingEnabled = listing.ListingEnabled
                     };
 
                     allListingDto.ListingsCollection.Add(listingDto);
@@ -140,10 +145,10 @@ namespace ApiMoho.Commands
                     var listingDto = new UserListingDto
                     {
                         Address = listing.Address,
-                        ListingType = EnumHelper.GetListingEnumString((int)listing.ListingTypeRefId),
-                        City = EnumHelper.GetCityEnumString((int)listing.CityRefId),
-                        Country = EnumHelper.GetCountryEnumString((int)listing.CountryRefId),
-                        Province = EnumHelper.GetProvinceEnumString((int)listing.ProvinceRefId),
+                        ListingType = EnumHelper.GetListingEnumString((int) listing.ListingTypeRefId),
+                        City = EnumHelper.GetCityEnumString((int) listing.CityRefId),
+                        Country = EnumHelper.GetCountryEnumString((int) listing.CountryRefId),
+                        Province = EnumHelper.GetProvinceEnumString((int) listing.ProvinceRefId),
                         Email = listing.Email,
                         FullName = listing.FullName,
                         PhoneNumber = listing.PhoneNumber,
@@ -152,7 +157,8 @@ namespace ApiMoho.Commands
                         ListingDescription = listing.ListingDescription,
                         ListingTitle = listing.ListingTitle,
                         UserListingId = listing.UserListingId,
-                        OwnerId = listing.OwnerId
+                        OwnerId = listing.OwnerId,
+                        ListingEnabled = listing.ListingEnabled
                     };
 
                     allListingDto.ListingsCollection.Add(listingDto);
@@ -192,14 +198,14 @@ namespace ApiMoho.Commands
                 };
 
                 var addListing = await _listingRepository.Update(listing, userId);
-               
+
 
                 var newListing = new UserListingDto
                 {
                     Address = addListing.Address,
-                    City = EnumHelper.GetCityEnumString((int)addListing.CityRefId),
-                    Country = EnumHelper.GetCountryEnumString((int)addListing.CountryRefId),
-                    Province = EnumHelper.GetProvinceEnumString((int)addListing.ProvinceRefId),
+                    City = EnumHelper.GetCityEnumString((int) addListing.CityRefId),
+                    Country = EnumHelper.GetCountryEnumString((int) addListing.CountryRefId),
+                    Province = EnumHelper.GetProvinceEnumString((int) addListing.ProvinceRefId),
                     Email = addListing.Email,
                     FullName = addListing.FullName,
                     LastUpdatedDate = addListing.LastUpdatedDate,
@@ -207,7 +213,7 @@ namespace ApiMoho.Commands
                     ListingDescription = addListing.ListingDescription,
                     ListingTitle = addListing.ListingTitle,
                     PhoneNumber = addListing.PhoneNumber,
-                    ListingType = EnumHelper.GetListingEnumString((int)addListing.ListingTypeRefId),
+                    ListingType = EnumHelper.GetListingEnumString((int) addListing.ListingTypeRefId),
                     UserListingId = addListing.UserListingId,
                     OwnerId = addListing.OwnerId
                 };
@@ -226,6 +232,20 @@ namespace ApiMoho.Commands
             {
                 await _listingRepository.DeleteListing(deleteListingRequest.UserListingId,
                     deleteListingRequest.OwnerId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task SetListingStatus(SetListingEnabledRequest setListingEnabledRequest, string userId)
+        {
+            try
+            {
+                await _listingRepository.SetListingStatus(setListingEnabledRequest.UserListingId,
+                    setListingEnabledRequest.OwnerId, setListingEnabledRequest.Enabled);
             }
             catch (Exception e)
             {
