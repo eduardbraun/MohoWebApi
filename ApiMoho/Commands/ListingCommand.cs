@@ -64,6 +64,7 @@ namespace ApiMoho.Commands
                     Province = EnumHelper.GetProvinceEnumString((int)addListing.ProvinceRefId),
                     Email = addListing.Email,
                     FullName = addListing.FullName,
+                    PhoneNumber = addListing.PhoneNumber,
                     LastUpdatedDate = addListing.LastUpdatedDate,
                     ListingDate = addListing.ListingDate,
                     ListingDescription = addListing.ListingDescription,
@@ -103,6 +104,7 @@ namespace ApiMoho.Commands
                         Province = EnumHelper.GetProvinceEnumString((int)listing.ProvinceRefId),
                         Email = listing.Email,
                         FullName = listing.FullName,
+                        PhoneNumber = listing.PhoneNumber,
                         LastUpdatedDate = listing.LastUpdatedDate,
                         ListingDate = listing.ListingDate,
                         ListingDescription = listing.ListingDescription,
@@ -144,6 +146,7 @@ namespace ApiMoho.Commands
                         Province = EnumHelper.GetProvinceEnumString((int)listing.ProvinceRefId),
                         Email = listing.Email,
                         FullName = listing.FullName,
+                        PhoneNumber = listing.PhoneNumber,
                         LastUpdatedDate = listing.LastUpdatedDate,
                         ListingDate = listing.ListingDate,
                         ListingDescription = listing.ListingDescription,
@@ -167,9 +170,9 @@ namespace ApiMoho.Commands
         {
             try
             {
-                CountryEnum c;
                 var listing = new UserListings
                 {
+                    UserListingId = updateListingRequest.UserListingId,
                     CountryName = updateListingRequest.ListingCountry,
                     ProvinceName = updateListingRequest.ListingProvince,
                     CityName = updateListingRequest.ListingCity,
@@ -203,6 +206,7 @@ namespace ApiMoho.Commands
                     ListingDate = addListing.ListingDate,
                     ListingDescription = addListing.ListingDescription,
                     ListingTitle = addListing.ListingTitle,
+                    PhoneNumber = addListing.PhoneNumber,
                     ListingType = EnumHelper.GetListingEnumString((int)addListing.ListingTypeRefId),
                     UserListingId = addListing.UserListingId,
                     OwnerId = addListing.OwnerId

@@ -84,7 +84,7 @@ namespace ApiMoho.Repositories
             {
                 using (ApiMohoContext context = new ApiMohoContext())
                 {
-                    UserListings userListing = await context.UserListings.FirstAsync(id => id.UserListingId == userListings.UserListingId && id.OwnerId == ownerId);
+                    var userListing = await context.UserListings.SingleAsync(id => id.UserListingId == userListings.UserListingId && id.OwnerId == ownerId);
 
                     userListing.CityRefId = userListings.CityRefId;
                     userListing.ListingTypeRefId = userListings.ListingTypeRefId;
