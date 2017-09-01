@@ -22,5 +22,6 @@ namespace ApiMoho.Models.Dtos
         public string FullName { get; set; }
         public string Address { get; set; }
         public bool? ListingEnabled { get; set; }
+        public int? Views { get; set; }
     }
 }

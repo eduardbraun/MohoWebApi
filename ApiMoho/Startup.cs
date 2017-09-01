@@ -77,6 +77,7 @@ namespace ApiMoho
 
             //Conmands Injections
             services.AddSingleton<IListingCommand, ListingCommand>();
+            services.AddSingleton<IBrowseCommand, BrowseCommand>();
 
             //Repository Injection
             services.AddSingleton<IListingRepository, ListingRepository>();

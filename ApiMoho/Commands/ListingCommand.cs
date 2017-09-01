@@ -42,7 +42,7 @@ namespace ApiMoho.Commands
                     ProvinceRefId = (int) addListingDto.ListingProvince,
                     CityRefId = (int) addListingDto.ListingCity,
                     ListingTypeRefId = (int) addListingDto.ListingType,
-                    CountryName = EnumHelper.GetCityEnumString((int) addListingDto.ListingCountry),
+                    CountryName = EnumHelper.GetCountryEnumString((int) addListingDto.ListingCountry),
                     ProvinceName = EnumHelper.GetProvinceEnumString((int) addListingDto.ListingProvince),
                     CityName = EnumHelper.GetCityEnumString((int) addListingDto.ListingCity),
                     ListingName = EnumHelper.GetListingEnumString((int) addListingDto.ListingType),

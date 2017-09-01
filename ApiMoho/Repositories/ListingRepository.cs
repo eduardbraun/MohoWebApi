@@ -68,8 +68,21 @@ namespace ApiMoho.Repositories
                 using (var context = new ApiMohoContext())
                 {
                     var listing = await context.UserListings.FindAsync(id);
+                    if (listing != null)
+                    {
+                        if (listing.Views == null)
+                        {
+                            listing.Views = 1;
+                        }
+                        else
+                        {
+                            listing.Views += 1;
+                        }
+                        await context.SaveChangesAsync();
+                        return listing;
+                    }
 
-                    return listing;
+                    return null;
                 }
             }
             catch (Exception e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ApiMoho.Commands.Interfaces;
 using ApiMoho.Models;
@@ -19,11 +20,13 @@ namespace ApiMoho.Controllers
     {
         private ILogger<ListingController> _logger;
         private IListingCommand _listingCommand;
+        private IBrowseCommand _browseCommand;
         private readonly UserManager<UserModel> _userManager;
 
         public BrowseController(ILogger<ListingController> logger, IListingCommand listingCommand,
-            UserManager<UserModel> userManager)
+            UserManager<UserModel> userManager, IBrowseCommand browserCommand)
         {
+            _browseCommand = browserCommand;
             _logger = logger;
             _listingCommand = listingCommand;
             _userManager = userManager;
@@ -33,7 +36,22 @@ namespace ApiMoho.Controllers
         [HttpGet("id={id}")]
         public async Task<IActionResult> GetListingView(int id)
         {
+            try
+            {
+                var listing = await _browseCommand.ViewListing(id);
 
+                if (listing != null)
+                {
+                    return Ok(listing);
+                }
+                _logger.LogError($"error listing does not exis");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error listing does not exist");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"error while getting listing: {e}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting listing");
+            }
         }
     }
 }
