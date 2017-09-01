@@ -12,6 +12,7 @@ namespace ApiMoho.Repositories.interfaces
         Task<UserListings> AddListing(UserListings userListings);
         Task RemoveListing(int enity);
         Task<List<UserListings>> GetAll();
+        Task<UserListings> GetById(int id);
         Task<List<UserListings>> GetAllForUser(string ownerId);
         Task<UserListings> Update(UserListings userListings, string ownerId);
         Task<List<CountrySelectionTable>> GetAllCounties();

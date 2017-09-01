@@ -39,6 +39,11 @@ namespace ApiMoho.Repositories
             }
         }
 
+        public Task RemoveListing(int enity)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<UserListings>> GetAll()
         {
             using (ApiMohoContext context = new ApiMohoContext())
@@ -53,6 +58,24 @@ namespace ApiMoho.Repositories
                     _logger.LogError($"error while getting list from database: {ex}");
                     throw ex.GetBaseException();
                 }
+            }
+        }
+
+        public async Task<UserListings> GetById(int id)
+        {
+            try
+            {
+                using (var context = new ApiMohoContext())
+                {
+                    var listing = await context.UserListings.FindAsync(id);
+
+                    return listing;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
