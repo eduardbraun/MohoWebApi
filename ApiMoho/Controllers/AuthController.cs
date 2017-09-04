@@ -106,7 +106,7 @@ namespace ApiMoho.Controllers
                         issuer: _configuration["Tokens:Issuer"],
                         audience: _configuration["Tokens:Audience"],
                         claims: claims,
-                        expires: DateTime.UtcNow.AddMinutes(15),
+                        expires: DateTime.UtcNow.AddDays(1),
                         signingCredentials: creds);
 
                     return Ok(new
