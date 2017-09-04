@@ -47,28 +47,34 @@ namespace ApiMoho.Controllers
         [Authorize]
         [HttpPost]
         [Route("ChangeProfile")]
-        public async Task<IActionResult> ChangeProfileImage([FromForm]IFormFile file)
+        public async Task<IActionResult> ChangeProfileImage()
         {
             try
             {
                 var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var user = await _userManager.FindByEmailAsync(id);
 
-                using (var memoryStream = new MemoryStream())
+                var files = Request.Form.Files;
+
+                var filecount = files.Count;
+
+                if (filecount > 0)
                 {
-                    await file.CopyToAsync(memoryStream);
-                    var image = memoryStream.ToArray();
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        var file = files[0];
+                        await file.CopyToAsync(memoryStream);
+                        var image = memoryStream.ToArray();
 
-                    user.AvatarImage = image;
+                        user.AvatarImage = image;
 
-                    await _userManager.UpdateAsync(user);
+                        await _userManager.UpdateAsync(user);
+                    }
+                    var updatedProfile = _userCommand.GetUserProfile(user).Result;
+                    return Ok(updatedProfile);
                 }
 
-
-                var updatedProfile = _userCommand.GetUserProfile(user);
-
-                return Ok(updatedProfile);
-
+                return StatusCode((int)HttpStatusCode.InternalServerError, "No Image Found");
             }
             catch (Exception e)
             {
