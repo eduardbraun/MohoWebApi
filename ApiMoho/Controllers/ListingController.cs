@@ -8,6 +8,7 @@ using ApiMoho.Commands.Interfaces;
 using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
 using ApiMoho.Models.Request;
+using ApiMoho.Models.Response;
 using ApiMoho.Repositories.interfaces;
 using ApiMoho.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -71,7 +72,28 @@ namespace ApiMoho.Controllers
             }
         }
 
-       
+        [Authorize]
+        [HttpGet("GetAllListingForUser")]
+        public async Task<IActionResult> GetAllListingsForUser()
+        {
+            try
+            {
+                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByEmailAsync(id);
+
+                var allListings = await _listingCommand.GetAllListingsForUserCommand(user.Id);
+                var response = new GetAllListingsResponse()
+                {
+                    UserListingCollectionDto = allListings
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting all lists for user: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting alllists for user");
+            }
+        }
 
         [AllowAnonymous]
         [HttpGet("GetAllListingForUser/{userid}", Name = "GetAllListingForUser")]
