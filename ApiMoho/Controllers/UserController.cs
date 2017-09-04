@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ApiMoho.Commands.Interfaces;
 using ApiMoho.Models;
+using ApiMoho.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -24,11 +25,13 @@ namespace ApiMoho.Controllers
         private ILogger<UserController> _logger;
         private IHttpContextAccessor _httpContextAccessor;
         private IUserCommand _userCommand;
+        private IListingCommand _listingCommand;
         private readonly UserManager<UserModel> _userManager;
 
-        public UserController(IHttpContextAccessor httpContextAccessor, IUserCommand userCommand, ILogger<UserController> logger,
-            UserManager<UserModel> userManager)
+        public UserController(IHttpContextAccessor httpContextAccessor, IUserCommand userCommand,
+            ILogger<UserController> logger, UserManager<UserModel> userManager, IListingCommand listingCommand)
         {
+            _listingCommand = listingCommand;
             _userManager = userManager;
             _logger = logger;
             _userCommand = userCommand;
@@ -85,9 +88,14 @@ namespace ApiMoho.Controllers
                 var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var user = await _userManager.FindByEmailAsync(id);
 
-                var updatedProfile = _userCommand.GetUserProfile(user).Result;
+                var profile = _userCommand.GetUserProfile(user).Result;
 
-                return Ok(updatedProfile);
+                var response = new GetUserProfileResponse()
+                {
+                    UserProfileDto = profile
+                };
+
+                return Ok(response);
 
             }
             catch (Exception e)
@@ -96,6 +104,33 @@ namespace ApiMoho.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting profile for user");
             }
 
+        }
+
+        [Authorize]
+        [HttpGet("GetProfileForUserSettings")]
+        public async Task<IActionResult> GetAllListingsForUser()
+        {
+            try
+            {
+                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByEmailAsync(id);
+
+                var allListings = await _listingCommand.GetAllListingsForUserCommand(user.Id);
+                var profile = await _userCommand.GetUserProfile(user);
+
+                var response = new GetProfileForUserSettingsResponse()
+                {
+                    UserListingCollectionDto = allListings,
+                    UserProfileDto = profile
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting profile for user: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting profile for user");
+            }
         }
     }
 }

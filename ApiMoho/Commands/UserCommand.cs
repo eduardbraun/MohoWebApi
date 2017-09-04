@@ -22,7 +22,7 @@ namespace ApiMoho.Commands
         }
 
 
-        public async Task<GetUserProfileResponse> GetUserProfile(UserModel userModel)
+        public async Task<UserProfileDto> GetUserProfile(UserModel userModel)
         {
             try
             {
@@ -36,10 +36,8 @@ namespace ApiMoho.Commands
                     UserId = userModel.Id
                 };
 
-                return new GetUserProfileResponse()
-                {
-                  UserProfileDto = user
-                };
+                return user;
+
             }
             catch (Exception e)
             {

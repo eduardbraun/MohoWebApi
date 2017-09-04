@@ -71,25 +71,7 @@ namespace ApiMoho.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("GetAllListingForUser")]
-        public async Task<IActionResult> GetAllListingsForUser()
-        {
-            try
-            {
-                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var user = await _userManager.FindByEmailAsync(id);
-
-                var allListings = await _listingCommand.GetAllListingsForUserCommand(user.Id);
-
-                return Ok(allListings);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"error while getting all lists for user: {ex}");
-                return StatusCode((int) HttpStatusCode.InternalServerError, "error while getting alllists for user");
-            }
-        }
+       
 
         [AllowAnonymous]
         [HttpGet("GetAllListingForUser/{userid}", Name = "GetAllListingForUser")]
