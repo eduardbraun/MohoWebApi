@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiMoho.Commands.Interfaces;
 using ApiMoho.Helper;
+using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
 using ApiMoho.Models.Response;
 using ApiMoho.Repositories.interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace ApiMoho.Commands
@@ -26,7 +28,7 @@ namespace ApiMoho.Commands
             _logger = logger;
         }
 
-        public async Task<ViewListingResponse> ViewListing(int id)
+        public async Task<ViewListingResponse> ViewListing(int id, UserManager<UserModel> _userManager)
         {
             try
             {
@@ -51,9 +53,23 @@ namespace ApiMoho.Commands
                     Views = listing.Views,
                     ListingEnabled = listing.ListingEnabled
                 };
+
+                var user = await _userManager.FindByIdAsync(listing.OwnerId);
+
+                var userProfileDto = new UserProfileDto()
+                {
+                    AvatarImage = user.AvatarImage,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    UserId = user.Id,
+                    UserName = user.UserName
+                };
+
                 var listingResponse = new ViewListingResponse()
                 {
-                    UserListing = listingDto
+                    UserListing = listingDto,
+                    UserProfileDto = userProfileDto
                 };
 
                 return listingResponse;

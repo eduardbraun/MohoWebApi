@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiMoho.Models;
 using ApiMoho.Models.Response;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace ApiMoho.Commands.Interfaces
 {
-    public interface IBrowseCommand
+    public interface IUserCommand
     {
-        Task<ViewListingResponse> ViewListing(int id, UserManager<UserModel> _userManager);
+        Task<GetUserProfileResponse> GetUserProfile(UserModel userModel);
     }
 }

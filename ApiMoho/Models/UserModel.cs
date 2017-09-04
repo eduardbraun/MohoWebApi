@@ -14,5 +14,6 @@ namespace ApiMoho.Models
         public DateTime JoinDate { get; set; }
         public DateTime JobTitle { get; set; }
         public string Contract { get; set; }
+        public byte[] AvatarImage { get; set; }
     }
 }

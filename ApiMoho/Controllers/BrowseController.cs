@@ -38,7 +38,7 @@ namespace ApiMoho.Controllers
         {
             try
             {
-                var listing = await _browseCommand.ViewListing(id);
+                var listing = await _browseCommand.ViewListing(id, _userManager);
 
                 if (listing != null)
                 {

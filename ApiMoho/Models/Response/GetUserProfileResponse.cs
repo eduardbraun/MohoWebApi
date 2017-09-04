@@ -6,9 +6,8 @@ using ApiMoho.Models.Dtos;
 
 namespace ApiMoho.Models.Response
 {
-    public class ViewListingResponse
+    public class GetUserProfileResponse
     {
-        public UserListingDto UserListing { get; set; }
         public UserProfileDto UserProfileDto { get; set; }
     }
 }

@@ -78,9 +78,11 @@ namespace ApiMoho
             //Conmands Injections
             services.AddSingleton<IListingCommand, ListingCommand>();
             services.AddSingleton<IBrowseCommand, BrowseCommand>();
+            services.AddSingleton<IUserCommand, UserCommand>();
 
             //Repository Injection
             services.AddSingleton<IListingRepository, ListingRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
 
             #region JWTSetup
 
