@@ -41,7 +41,7 @@ namespace ApiMoho.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromForm] RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -123,7 +123,7 @@ namespace ApiMoho.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"error while creating token: {ex}");
-                return StatusCode((int) HttpStatusCode.InternalServerError, "error while creating token");
+                return StatusCode((int) HttpStatusCode.InternalServerError, "error while creating token" + ex);
             }
         }
     }

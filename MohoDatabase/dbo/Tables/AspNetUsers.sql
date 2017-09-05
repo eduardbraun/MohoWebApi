@@ -19,8 +19,15 @@
     [UserName]             NVARCHAR (256)     NULL,
     [FirstName]            NVARCHAR (MAX)     NULL,
     [LastName]             NVARCHAR (MAX)     NULL,
+    [AvatarImage]          VARBINARY (MAX)    NULL,
+    [Age]                  NVARCHAR (MAX)     NULL,
+    [IsPremium]            BIT                DEFAULT ((0)) NOT NULL,
+    [Location]             NVARCHAR (MAX)     NULL,
+    [Sex]                  NVARCHAR (MAX)     NULL,
     CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 GO

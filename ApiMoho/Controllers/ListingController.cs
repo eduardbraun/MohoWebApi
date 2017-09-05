@@ -118,7 +118,7 @@ namespace ApiMoho.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"error while getting all lists for user: {ex}");
-                return StatusCode((int) HttpStatusCode.InternalServerError, "error while getting alllists for user");
+                return StatusCode((int) HttpStatusCode.InternalServerError, "error while getting alllists for user" + ex);
             }
         }
 
