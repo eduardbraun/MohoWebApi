@@ -79,5 +79,37 @@ namespace ApiMoho.Commands
                 throw ex.GetBaseException();
             }
         }
+
+        public async Task<List<UserProfileReviewDto>> GetUserReviews(string userId)
+        {
+            try
+            {
+                var respnse = new List<UserProfileReviewDto>();
+
+                var userReviewList = await _userRepository.GetUserReviewList(userId);
+
+                foreach(var review in userReviewList)
+                {
+                    var dto = new UserProfileReviewDto()
+                    {
+                     Username = review.ReviewUsername,
+                     OwnerRefId = review.ReviewOwnerRefId,
+                     UserRefRefId = review.UserRefId,
+                     ReviewDateTime = review.ReviewDate,
+                     ReviewTitle = review.ReviewTitle,
+                     ReviewDescription = review.ReviewDescription
+                    };
+
+                    respnse.Add(dto);
+                }
+
+                return respnse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while constrcting dto review list: {ex}");
+                throw ex.GetBaseException();
+            }
+        }
     }
 }

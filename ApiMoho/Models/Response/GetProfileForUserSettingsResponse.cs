@@ -10,5 +10,6 @@ namespace ApiMoho.Models.Response
     {
         public UserListingCollectionDto UserListingCollectionDto { get; set; }
         public UserProfileDto UserProfileDto { get; set; }
+        public List<UserProfileReviewDto> UserProfileReviewList { get; set; }
     }
 }

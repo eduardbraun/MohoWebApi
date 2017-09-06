@@ -9,5 +9,6 @@ namespace ApiMoho.Repositories.interfaces
     public interface IUserRepository
     {
         Task AddUserReview(UserReview userReview);
+        Task<List<UserReview>> GetUserReviewList(string userId);
     }
 }

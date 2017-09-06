@@ -15,5 +15,6 @@ namespace ApiMoho.Commands.Interfaces
     {
         Task<UserProfileDto> GetUserProfile(UserModel userModel);
         Task GiveUserReviewCommand(GiveReviewForUserRequest request, string userId, UserManager<UserModel> userManager);
+        Task<List<UserProfileReviewDto>> GetUserReviews(string userId);
     }
 }

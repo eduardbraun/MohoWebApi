@@ -96,6 +96,7 @@ namespace ApiMoho.Controllers
                 var user = await _userManager.FindByEmailAsync(id);
 
                 var profile = _userCommand.GetUserProfile(user).Result;
+                
 
                 var response = new GetUserProfileResponse()
                 {
@@ -124,11 +125,13 @@ namespace ApiMoho.Controllers
 
                 var allListings = await _listingCommand.GetAllListingsForUserCommand(user.Id);
                 var profile = await _userCommand.GetUserProfile(user);
+                var reviews = await _userCommand.GetUserReviews(user.Id);
 
                 var response = new GetProfileForUserSettingsResponse()
                 {
                     UserListingCollectionDto = allListings,
-                    UserProfileDto = profile
+                    UserProfileDto = profile,
+                    UserProfileReviewList = reviews
                 };
 
                 return Ok(response);
