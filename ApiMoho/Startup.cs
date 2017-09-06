@@ -137,8 +137,11 @@ namespace ApiMoho
             }
 
             var options = new RewriteOptions().AddRedirectToHttps();
+#if (!DEBUG)
 
             app.UseRewriter(options);
+#endif
+
 
             app.UseCors("AllowAllOrigins");
 

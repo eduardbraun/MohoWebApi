@@ -26,7 +26,6 @@ namespace ApiMoho.Models
         public string Email { get; set; }
 
         [Required]
-        [EmailAddress]
         [Display(Name = "Username")]
         public string Username { get; set; }
 

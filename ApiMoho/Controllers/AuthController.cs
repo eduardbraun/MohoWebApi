@@ -58,8 +58,8 @@ namespace ApiMoho.Controllers
             };
             try
             {
-                var existsByUserName = await _userManager.GetUserNameAsync(user);
-                var existsByEmail = await _userManager.GetEmailAsync(user);
+                var existsByUserName = await _userManager.FindByNameAsync(user.UserName);
+                var existsByEmail = await _userManager.FindByEmailAsync(user.Email);
 
                 if (existsByUserName != null || existsByEmail != null)
                 {
