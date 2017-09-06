@@ -321,5 +321,48 @@ namespace ApiMoho.Commands
                 throw ex.GetBaseException();
             }
         }
+
+        public async Task<UserListingCollectionDto> SearchFilterList(SearchListingRequest searchListingRequest)
+        {
+            try
+            {
+                var listings = await _listingRepository.SearchFilter(searchListingRequest);
+
+                var allListingDto = new UserListingCollectionDto();
+                allListingDto.ListingsCollection = new List<UserListingDto>();
+
+                var lis = new List<UserListingDto>();
+
+                foreach (var listing in listings)
+                {
+                    var listingDto = new UserListingDto
+                    {
+                        Address = listing.Address,
+                        ListingType = EnumHelper.GetListingEnumString((int)listing.ListingTypeRefId),
+                        City = EnumHelper.GetCityEnumString((int)listing.CityRefId),
+                        Country = EnumHelper.GetCountryEnumString((int)listing.CountryRefId),
+                        Province = EnumHelper.GetProvinceEnumString((int)listing.ProvinceRefId),
+                        Email = listing.Email,
+                        FullName = listing.FullName,
+                        PhoneNumber = listing.PhoneNumber,
+                        LastUpdatedDate = listing.LastUpdatedDate,
+                        ListingDate = listing.ListingDate,
+                        ListingDescription = listing.ListingDescription,
+                        ListingTitle = listing.ListingTitle,
+                        UserListingId = listing.UserListingId,
+                        OwnerId = listing.OwnerId,
+                        ListingEnabled = listing.ListingEnabled
+                    };
+
+                    allListingDto.ListingsCollection.Add(listingDto);
+                }
+                return allListingDto;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while searching: {ex}");
+                throw ex.GetBaseException();
+            }
+        }
     }
 }

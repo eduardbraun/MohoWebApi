@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
+using ApiMoho.Models.Request;
 
 namespace ApiMoho.Repositories.interfaces
 {
@@ -21,5 +22,6 @@ namespace ApiMoho.Repositories.interfaces
         Task<List<ListingSelectionTable>> GetAllListings();
         Task DeleteListing(int listingId, string ownderId);
         Task SetListingStatus(int listingId, string ownderId, bool enabled);
+        Task<List<UserListings>> SearchFilter(SearchListingRequest searchListingRequest);
     }
 }

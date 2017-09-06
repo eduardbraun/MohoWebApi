@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
+using ApiMoho.Models.Request;
 using ApiMoho.Repositories.interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -249,6 +250,53 @@ namespace ApiMoho.Repositories
                 {
                     throw new Exception("No Listing was found by the given id {listingId}");
                 }
+            }
+        }
+
+        public async Task<List<UserListings>> SearchFilter(SearchListingRequest searchListingRequest)
+        {
+            try
+            {
+                using (var context  = new ApiMohoContext())
+                {
+                    if (searchListingRequest.CityType != null && searchListingRequest.CountryType != null &&
+                        searchListingRequest.FilterType != null && searchListingRequest.ProvinceType != null)
+                    {
+                        var userListings = await context.UserListings.Where(a => a.ListingEnabled == true && a.ListingTypeRefId == searchListingRequest.FilterType
+                        && a.CountryRefId == searchListingRequest.CountryType && a.ProvinceRefId == searchListingRequest.ProvinceType
+                        && a.CityRefId == searchListingRequest.CityType).ToListAsync();
+                        return userListings;
+                    }
+                    else if (searchListingRequest.CountryType != null &&
+                        searchListingRequest.FilterType != null && searchListingRequest.ProvinceType != null)
+                    {
+                        var userListings = await context.UserListings.Where(a => a.ListingEnabled == true && a.ListingTypeRefId == searchListingRequest.FilterType
+                                                                                 && a.CountryRefId == searchListingRequest.CountryType && a.ProvinceRefId == searchListingRequest.ProvinceType).ToListAsync();
+                        return userListings;
+                    }
+                    else if (searchListingRequest.CountryType != null &&
+                        searchListingRequest.FilterType != null)
+                    {
+                        var userListings = await context.UserListings.Where(a => a.ListingEnabled == true && a.ListingTypeRefId == searchListingRequest.FilterType
+                                                                                 && a.CountryRefId == searchListingRequest.CountryType).ToListAsync();
+                        return userListings;
+                    }
+                    else if (searchListingRequest.FilterType != null)
+                    {
+                        var userListings = await context.UserListings.Where(a => a.ListingEnabled == true && a.ListingTypeRefId == searchListingRequest.FilterType).ToListAsync();
+                        return userListings;
+                    }
+                    else
+                    {
+                        var userListings = await context.UserListings.Where(a => a.ListingEnabled == true).ToListAsync();
+                        return userListings;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
     }

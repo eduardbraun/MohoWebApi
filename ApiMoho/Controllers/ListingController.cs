@@ -172,6 +172,22 @@ namespace ApiMoho.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPost("SearchListings")]
+        public async Task<IActionResult> SearchListings([FromBody]SearchListingRequest searchListingRequest)
+        {
+            try
+            {
+                var searchResult = await _listingCommand.SearchFilterList(searchListingRequest);
+                return Ok(searchResult);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while getting filter list {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting filter list");
+            }
+        }
+
         [Authorize]
         [HttpPost("DeleteListing")]
         public async Task<IActionResult> DeleteListing([FromBody] DeleteListingRequest deleteListingRequest)
