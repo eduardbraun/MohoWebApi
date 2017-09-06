@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ApiMoho.Controllers
 {
-
+    [Authorize]
     [Produces("application/json")]
     [Route("api/User")]
     public class UserController : Controller
@@ -179,6 +179,43 @@ namespace ApiMoho.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, "error while changing profile for user");
             }
 
+        }
+
+        [AllowAnonymous]
+        [HttpGet("id={id}")]
+        public async Task<IActionResult> GetUserProfileById(string id)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(id);
+                if (user == null)
+                {
+                    return BadRequest("User does not exist");
+                }
+
+                var profile = _userCommand.GetUserProfile(user).Result;
+                var listings = await _listingCommand.GetAllListingsForUserCommand(user.Id);
+                var review = await _userCommand.GetUserReviews(user.Id);
+                var response = new GetProfileForUserSettingsResponse()
+                {
+                    UserProfileDto = profile,
+                    UserListingCollectionDto = listings,
+                    UserProfileReviewList = review
+                };
+
+                return Ok(new
+                {
+                    Profile = response,
+                    Success = true,
+                    Message = "Successfully loaded profile"
+                });
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"error while getting listing: {e}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting listing");
+            }
         }
     }
 }
