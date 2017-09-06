@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ApiMoho.Commands.Interfaces;
 using ApiMoho.Models;
+using ApiMoho.Models.Request;
 using ApiMoho.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -137,6 +138,44 @@ namespace ApiMoho.Controllers
                 _logger.LogError($"error while getting profile for user: {ex}");
                 return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting profile for user");
             }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("GiveReviewForUser")]
+        public async Task<IActionResult> GiveReviewForUser([FromBody] GiveReviewForUserRequest giveReviewForUserRequest)
+        {
+            try
+            {
+                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByEmailAsync(id);
+
+                var reviewUser = await _userManager.FindByIdAsync(giveReviewForUserRequest.OwnerId);
+
+                if (user == null)
+                {
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Wrong User");
+                }
+
+                if (reviewUser == null)
+                {
+                    return StatusCode((int)HttpStatusCode.BadRequest, "User does not exist");
+                }
+
+                await _userCommand.GiveUserReviewCommand(giveReviewForUserRequest, user.Id, _userManager);
+
+                return Ok(new
+                {
+                    Success = true,
+                    Message = "Success fully added review."
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"error while changing profile for user: {e}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while changing profile for user");
+            }
+
         }
     }
 }

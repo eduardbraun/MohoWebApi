@@ -14,5 +14,6 @@ namespace ApiMoho.Models.Dtos
         public string UserName { get; set; }
         public string Email { get; set; }
         public byte[] AvatarImage { get; set; }
+        public int UpVote { get; set; }
     }
 }

@@ -49,10 +49,17 @@ namespace ApiMoho
                     builder => { builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin(); });
             });
             services.AddMvc();
+#if (DEBUG)
+            services.AddDbContext<SecurityContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DebugSecurityConnection"),
+                    sqlOptions => sqlOptions.MigrationsAssembly("ApiMoho")));
+#endif
+
+#if (!DEBUG)
             services.AddDbContext<SecurityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SecurityConnection"),
                     sqlOptions => sqlOptions.MigrationsAssembly("ApiMoho")));
-
+            #endif
 
             services.AddIdentity<UserModel, UserRole>().AddEntityFrameworkStores<SecurityContext>()
                 .AddDefaultTokenProviders();
@@ -74,7 +81,7 @@ namespace ApiMoho
                 };
             });
 
-            #endregion
+#endregion
 
             //Conmands Injections
             services.AddSingleton<IListingCommand, ListingCommand>();
@@ -85,7 +92,7 @@ namespace ApiMoho
             services.AddSingleton<IListingRepository, ListingRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
 
-            #region JWTSetup
+#region JWTSetup
 
             var audienceConfig = Configuration.GetSection("Tokens");
             var symmetricKeyAsBase64 = audienceConfig["Key"];
@@ -124,7 +131,7 @@ namespace ApiMoho
                     o.TokenValidationParameters = tokenValidationParameters;
                 });
 
-            #endregion
+#endregion
 
         }
 

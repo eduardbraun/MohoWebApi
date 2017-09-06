@@ -75,6 +75,8 @@ namespace ApiMoho.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<int>("UpVote");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 

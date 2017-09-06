@@ -18,14 +18,15 @@ namespace ApiMoho.Models
         public virtual DbSet<ListingSelectionTable> ListingSelectionTable { get; set; }
         public virtual DbSet<ProvinceSelectionTable> ProvinceSelectionTable { get; set; }
         public virtual DbSet<UserListings> UserListings { get; set; }
+        public virtual DbSet<UserReview> UserReview { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                                optionsBuilder.UseSqlServer(@"Server=108.59.84.13; Database=ApiMoho; Trusted_Connection=False; User Id=sa;Password=Xa/&b.\)X.BEi&3;");
-                //                optionsBuilder.UseSqlServer(@"data source=108.59.84.13;initial catalog=ApiMoho;persist security info=True;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework; User Id=sa;Password=Xa/&b.\\)X.BEi&3;");
+                optionsBuilder.UseSqlServer(@"Server=108.59.84.13; Database=ApiMoho; Trusted_Connection=False; User Id=sa;Password=Xa/&b.\)X.BEi&3;");
+
             }
         }
 
@@ -109,9 +110,13 @@ namespace ApiMoho.Models
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
+                entity.Property(e => e.IsPremium).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+
+                entity.Property(e => e.UpVote).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
             });
@@ -235,6 +240,49 @@ namespace ApiMoho.Models
                     .WithMany(p => p.UserListings)
                     .HasForeignKey(d => d.OwnerId)
                     .HasConstraintName("FK_OwnerId");
+            });
+
+            modelBuilder.Entity<UserReview>(entity =>
+            {
+                entity.Property(e => e.ReviewDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ReviewDeleted).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ReviewDescription).IsUnicode(false);
+
+                entity.Property(e => e.ReviewOwnerRefId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.ReviewTitle)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ReviewUsername)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpVoteNum)
+                    .IsRequired()
+                    .HasColumnType("nchar(10)")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.UserRefId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.HasOne(d => d.ReviewOwnerRef)
+                    .WithMany(p => p.UserReviewReviewOwnerRef)
+                    .HasForeignKey(d => d.ReviewOwnerRefId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ReviewOwnerId");
+
+                entity.HasOne(d => d.UserRef)
+                    .WithMany(p => p.UserReviewUserRef)
+                    .HasForeignKey(d => d.UserRefId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ReviewUserRefId");
             });
         }
     }

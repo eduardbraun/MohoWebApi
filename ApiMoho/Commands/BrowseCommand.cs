@@ -63,7 +63,8 @@ namespace ApiMoho.Commands
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     UserId = user.Id,
-                    UserName = user.UserName
+                    UserName = user.UserName,
+                    UpVote = user.UpVote
                 };
 
                 var listingResponse = new ViewListingResponse()

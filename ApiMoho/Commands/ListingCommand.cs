@@ -53,8 +53,8 @@ namespace ApiMoho.Commands
                     PhoneNumber = addListingDto.PhoneNumber,
                     FullName = addListingDto.FullName,
                     OwnerId = UserId,
-                    ListingDate = DateTime.Today,
-                    LastUpdatedDate = DateTime.Today
+                    ListingDate = DateTime.Now,
+                    LastUpdatedDate = DateTime.Now
                 };
 
                 var addListing = await _listingRepository.AddListing(listing);
@@ -190,7 +190,7 @@ namespace ApiMoho.Commands
                     PhoneNumber = updateListingRequest.PhoneNumber,
                     FullName = updateListingRequest.FullName,
                     OwnerId = updateListingRequest.OwnerId,
-                    LastUpdatedDate = DateTime.Today,
+                    LastUpdatedDate = DateTime.Now,
                     CityRefId = EnumHelper.GetCityEnumInt(updateListingRequest.ListingCity),
                     CountryRefId = EnumHelper.GetCountryEnumInt(updateListingRequest.ListingCountry),
                     ProvinceRefId = EnumHelper.GetProvinceEnumInt(updateListingRequest.ListingProvince),

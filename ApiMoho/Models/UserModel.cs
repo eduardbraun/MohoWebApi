@@ -21,5 +21,7 @@ namespace ApiMoho.Models
         public string Age { get; set; }
         [DefaultValue(false)]
         public bool IsPremium { get; set; }
+        [DefaultValue(0)]
+        public int UpVote { get; set; }
     }
 }

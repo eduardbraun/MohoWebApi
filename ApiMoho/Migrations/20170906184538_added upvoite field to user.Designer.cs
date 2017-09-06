@@ -11,8 +11,8 @@ using System;
 namespace ApiMoho.Migrations
 {
     [DbContext(typeof(SecurityContext))]
-    [Migration("20170904181036_Additional User Field Added")]
-    partial class AdditionalUserFieldAdded
+    [Migration("20170906184538_added upvoite field to user")]
+    partial class addedupvoitefieldtouser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,6 +75,8 @@ namespace ApiMoho.Migrations
                     b.Property<string>("Sex");
 
                     b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<int>("UpVote");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);

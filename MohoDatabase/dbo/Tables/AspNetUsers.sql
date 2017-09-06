@@ -24,8 +24,11 @@
     [IsPremium]            BIT                DEFAULT ((0)) NOT NULL,
     [Location]             NVARCHAR (MAX)     NULL,
     [Sex]                  NVARCHAR (MAX)     NULL,
+    [UpVote]               INT                DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 
