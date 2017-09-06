@@ -51,11 +51,21 @@ namespace ApiMoho.Controllers
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                UserName = model.Email,
-                Email = model.Email
+                UserName = model.Username,
+                Email = model.Email,
+                Age = model.Age,
+                Location = model.Location
             };
             try
             {
+                var existsByUserName = await _userManager.GetUserNameAsync(user);
+                var existsByEmail = await _userManager.GetEmailAsync(user);
+
+                if (existsByUserName != null || existsByEmail != null)
+                {
+                    return BadRequest("Username and Email need to be Unique");
+                }
+
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)

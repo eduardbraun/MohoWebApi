@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.Internal;
 using Microsoft.Extensions.Configuration;
@@ -134,6 +135,10 @@ namespace ApiMoho
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            var options = new RewriteOptions().AddRedirectToHttps();
+
+            app.UseRewriter(options);
 
             app.UseCors("AllowAllOrigins");
 

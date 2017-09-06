@@ -8,18 +8,27 @@ namespace ApiMoho.Models
 {
     public class RegisterModel
     {
-        [Required]
         [Display(Name = "FirstName")]
         public string FirstName { get; set; }
 
-        [Required]
         [Display(Name = "LastName")]
         public string LastName { get; set; }
+
+        [Display(Name = "Age")]
+        public string Age { get; set; }
+
+        [Display(Name = "Location")]
+        public string Location { get; set; }
 
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
