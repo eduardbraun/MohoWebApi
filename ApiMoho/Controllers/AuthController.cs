@@ -92,7 +92,7 @@ namespace ApiMoho.Controllers
         {
             try
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
                     return StatusCode((int)HttpStatusCode.Unauthorized, "Username or Password is wrong. Do you have an account?");

@@ -52,7 +52,7 @@ namespace ApiMoho.Controllers
         {
             try
             {
-                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var id = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
                 var user = await _userManager.FindByEmailAsync(id);
 
                 var files = Request.Form.Files;
@@ -92,7 +92,7 @@ namespace ApiMoho.Controllers
         {
             try
             {
-                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var id = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
                 var user = await _userManager.FindByEmailAsync(id);
 
                 var profile = _userCommand.GetUserProfile(user).Result;
@@ -120,7 +120,7 @@ namespace ApiMoho.Controllers
         {
             try
             {
-                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var id = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
                 var user = await _userManager.FindByEmailAsync(id);
 
                 var allListings = await _listingCommand.GetAllListingsForUserCommand(user.Id);
@@ -150,7 +150,7 @@ namespace ApiMoho.Controllers
         {
             try
             {
-                var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var id = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
                 var user = await _userManager.FindByEmailAsync(id);
 
                 var reviewUser = await _userManager.FindByIdAsync(giveReviewForUserRequest.OwnerId);

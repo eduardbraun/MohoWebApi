@@ -26,6 +26,7 @@ namespace ApiMoho.Models
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(@"Server=108.59.84.13; Database=ApiMoho; Trusted_Connection=False; User Id=sa;Password=Xa/&b.\)X.BEi&3;");
+//                optionsBuilder.UseSqlServer(@"data source=.\SQLEXPRESS;initial catalog=ApiMoho;persist security info=True;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework");
 
             }
         }
