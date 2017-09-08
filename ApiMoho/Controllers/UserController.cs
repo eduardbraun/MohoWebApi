@@ -165,7 +165,7 @@ namespace ApiMoho.Controllers
                     return StatusCode((int)HttpStatusCode.BadRequest, "User does not exist");
                 }
 
-                await _userCommand.GiveUserReviewCommand(giveReviewForUserRequest, user.Id, _userManager);
+                await _userCommand.GiveUserReviewCommand(giveReviewForUserRequest, reviewUser.Id, _userManager);
 
                 return Ok(new
                 {

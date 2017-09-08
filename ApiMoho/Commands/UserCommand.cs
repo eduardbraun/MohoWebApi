@@ -38,7 +38,8 @@ namespace ApiMoho.Commands
                     FirstName = userModel.FirstName,
                     LastName = userModel.LastName,
                     UserName = userModel.UserName,
-                    UserId = userModel.Id
+                    UserId = userModel.Id,
+                    UpVote = userModel.UpVote
                 };
 
                 return user;
@@ -56,6 +57,7 @@ namespace ApiMoho.Commands
             try
             {
                 var user = await userManager.FindByIdAsync(userId);
+                var userReviewOwner = await userManager.FindByIdAsync(request.OwnerId);
                 var review = new UserReview()
                 {
                     ReviewDate = DateTime.Now,
@@ -64,7 +66,7 @@ namespace ApiMoho.Commands
                     ReviewOwnerRefId = userId,
                     ReviewTitle = request.ReviewTitle,
                     UpVoteNum = Convert.ToString(request.UpVotePoints),
-                    ReviewUsername = user.UserName
+                    ReviewUsername = userReviewOwner.UserName
                 };
 
                 await _userRepository.AddUserReview(review);
@@ -97,7 +99,8 @@ namespace ApiMoho.Commands
                      UserRefRefId = review.UserRefId,
                      ReviewDateTime = review.ReviewDate,
                      ReviewTitle = review.ReviewTitle,
-                     ReviewDescription = review.ReviewDescription
+                     ReviewDescription = review.ReviewDescription,
+                     UpVotes = Convert.ToInt32(review.UpVoteNum)
                     };
 
                     respnse.Add(dto);
