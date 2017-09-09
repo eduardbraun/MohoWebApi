@@ -56,18 +56,19 @@ namespace ApiMoho.Commands
         {
             try
             {
-                var user = await userManager.FindByIdAsync(userId);
-                var userReviewOwner = await userManager.FindByIdAsync(request.OwnerId);
+                var user = await userManager.FindByIdAsync(request.OwnerId);
+                var userReviewOwner = await userManager.FindByIdAsync(userId);
                 var review = new UserReview()
                 {
                     ReviewDate = DateTime.Now,
                     ReviewDescription = request.ReviewDescription,
-                    UserRefId = request.OwnerId,
+                    UserRefId = user.Id,
                     ReviewOwnerRefId = userId,
                     ReviewTitle = request.ReviewTitle,
                     UpVoteNum = Convert.ToString(request.UpVotePoints),
                     ReviewUsername = userReviewOwner.UserName
                 };
+
 
                 await _userRepository.AddUserReview(review);
 
