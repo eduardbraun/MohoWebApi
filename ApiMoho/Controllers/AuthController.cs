@@ -45,7 +45,7 @@ namespace ApiMoho.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Please fill out all fields!");
             }
             var user = new UserModel()
             {

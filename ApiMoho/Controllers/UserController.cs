@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ApiMoho.Commands.Interfaces;
 using ApiMoho.Models;
 using ApiMoho.Models.Request;
+using ApiMoho.Models.Request.UserRequest;
 using ApiMoho.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -217,5 +218,40 @@ namespace ApiMoho.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting listing");
             }
         }
+
+        [Authorize]
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest changePasswordRequest)
+        {
+            try
+            {
+                var id = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+                var user = await _userManager.FindByEmailAsync(id);
+
+                if (user == null)
+                {
+                    return BadRequest(error: "User does not exist!");
+                }
+
+                await _userManager.ChangePasswordAsync(user, changePasswordRequest.CurrentPassword,
+                    changePasswordRequest.Password);
+
+                var updatedUser =await _userManager.FindByEmailAsync(id);
+
+                var updatedUserDto = await _userCommand.GetUserProfile(updatedUser);
+
+                return Ok(new
+                {
+                    Message = "Successfully Change Your Password",
+                    User = updatedUserDto
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"error while getting listing: {e}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting listing");
+            }
+        }
+
     }
 }

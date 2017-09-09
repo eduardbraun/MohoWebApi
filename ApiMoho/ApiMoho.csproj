@@ -8,6 +8,7 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="EntityFramework\" />
+    <Folder Include="Models\Request\UserResponse\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
