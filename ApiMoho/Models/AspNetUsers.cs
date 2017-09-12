@@ -11,7 +11,9 @@ namespace ApiMoho.Models
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
+            SendEmailLog = new HashSet<SendEmailLog>();
             UserListings = new HashSet<UserListings>();
+            UserLogs = new HashSet<UserLogs>();
             UserReviewReviewOwnerRef = new HashSet<UserReview>();
             UserReviewUserRef = new HashSet<UserReview>();
         }
@@ -47,7 +49,9 @@ namespace ApiMoho.Models
         public ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public ICollection<SendEmailLog> SendEmailLog { get; set; }
         public ICollection<UserListings> UserListings { get; set; }
+        public ICollection<UserLogs> UserLogs { get; set; }
         public ICollection<UserReview> UserReviewReviewOwnerRef { get; set; }
         public ICollection<UserReview> UserReviewUserRef { get; set; }
     }

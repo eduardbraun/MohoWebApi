@@ -63,4 +63,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ReviewUsername" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="5b9cb651-7b93-426a-90d6-8b7a9e801f12" ChangeDateTime="09/12/2017 15:57:13">
+    <Property Name="ElementName" Value="[dbo].[SendEmailLog].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SendEmailLog]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value=" [UserListingId] int NOT NULL Identity, " />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f8bfc5c5-047f-4018-acac-43333145e4b3" ChangeDateTime="09/12/2017 15:57:24">
+    <Property Name="ElementName" Value="[dbo].[SendEmailLog].[UserListingId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SendEmailLog]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id" />
+  </Operation>
 </Operations>

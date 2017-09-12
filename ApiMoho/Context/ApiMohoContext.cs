@@ -17,22 +17,17 @@ namespace ApiMoho.Models
         public virtual DbSet<CountrySelectionTable> CountrySelectionTable { get; set; }
         public virtual DbSet<ListingSelectionTable> ListingSelectionTable { get; set; }
         public virtual DbSet<ProvinceSelectionTable> ProvinceSelectionTable { get; set; }
+        public virtual DbSet<SendEmailLog> SendEmailLog { get; set; }
         public virtual DbSet<UserListings> UserListings { get; set; }
+        public virtual DbSet<UserLogs> UserLogs { get; set; }
         public virtual DbSet<UserReview> UserReview { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#if (!DEBUG)
-                optionsBuilder.UseSqlServer(@"Server=108.59.84.13; Database=ApiMoho; Trusted_Connection=False; User Id=sa;Password=Xa/&b.\)X.BEi&3;");
-#endif
-                         
-
-#if (DEBUG)
-                optionsBuilder.UseSqlServer(@"data source=.\SQLEXPRESS;initial catalog=ApiMoho;persist security info=True;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework");
-#endif
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=ApiMoho;Trusted_Connection=True;");
             }
         }
 
@@ -183,6 +178,30 @@ namespace ApiMoho.Models
                     .HasConstraintName("FK_ProvinceCountryRefId");
             });
 
+            modelBuilder.Entity<SendEmailLog>(entity =>
+            {
+                entity.Property(e => e.FromEmail)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Message).IsUnicode(false);
+
+                entity.Property(e => e.RecipientUserId).HasMaxLength(450);
+
+                entity.Property(e => e.SendDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.ToEmail)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.RecipientUser)
+                    .WithMany(p => p.SendEmailLog)
+                    .HasForeignKey(d => d.RecipientUserId)
+                    .HasConstraintName("FK_RecipientUserId");
+            });
+
             modelBuilder.Entity<UserListings>(entity =>
             {
                 entity.HasKey(e => e.UserListingId);
@@ -248,9 +267,34 @@ namespace ApiMoho.Models
                     .HasConstraintName("FK_OwnerId");
             });
 
+            modelBuilder.Entity<UserLogs>(entity =>
+            {
+                entity.Property(e => e.LogDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.LogMessage).IsUnicode(false);
+
+                entity.Property(e => e.LogType)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserLogs)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserLogUserId");
+            });
+
             modelBuilder.Entity<UserReview>(entity =>
             {
-                entity.Property(e => e.ReviewDate).HasColumnType("datetime");
+                entity.Property(e => e.ReviewDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.ReviewDeleted).HasDefaultValueSql("((0))");
 

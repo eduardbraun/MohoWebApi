@@ -6,7 +6,7 @@
     [UserRefId]  NVARCHAR (450) NOT NULL,
     [ReviewTitle] VARCHAR(50) NULL, 
     [ReviewDescription] VARCHAR(MAX) NULL, 
-    [ReviewDate] DATETIME NULL, 
+    [ReviewDate] DATETIME NULL DEFAULT getdate(), 
     [UpVoteNum] NCHAR(10) NOT NULL DEFAULT 0,
     [ReviewUsername] VARCHAR(250) NOT NULL, 
     CONSTRAINT [PK_UserReviewId] PRIMARY KEY ([UserReviewId]),
