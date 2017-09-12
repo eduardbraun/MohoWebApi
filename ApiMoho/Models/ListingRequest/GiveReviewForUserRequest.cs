@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
 
-namespace ApiMoho.Models.Request
+namespace ApiMoho.Models
 {
     public class GiveReviewForUserRequest
     {

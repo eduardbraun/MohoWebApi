@@ -4,13 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ApiMoho.Models.Request
+namespace ApiMoho.Models
 {
-    public class DeleteListingRequest
+    public class GetListingForSpecificUserRequest
     {
         [Required]
-        public int UserListingId { get; set; }
-        [Required]
-        public string OwnerId { get; set; }
+        public string UserId { get; set; }
     }
 }

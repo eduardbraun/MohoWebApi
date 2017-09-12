@@ -11,6 +11,7 @@ using ApiMoho.Models;
 using ApiMoho.Models.Request;
 using ApiMoho.Models.Request.UserRequest;
 using ApiMoho.Models.Response;
+using ApiMoho.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -46,6 +47,7 @@ namespace ApiMoho.Controllers
         {
             return null;
         }
+
         [Authorize]
         [HttpPost]
         [Route("ChangeProfile")]
@@ -244,6 +246,28 @@ namespace ApiMoho.Controllers
                 {
                     Message = "Successfully Change Your Password",
                     User = updatedUserDto
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"error while getting listing: {e}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while getting listing");
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("SendEmail")]
+        public async Task<IActionResult> SendEmail()
+        {
+            try
+            {
+               var emailService = new EmailService();
+
+                await emailService.SendActivationEmail();
+
+                return Ok(new
+                {
+                 Message = "Email has been send"
                 });
             }
             catch (Exception e)

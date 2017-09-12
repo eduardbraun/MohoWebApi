@@ -8,9 +8,11 @@ using ApiMoho.Helper;
 using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
 using ApiMoho.Models.Enums;
+using ApiMoho.Models.ListingRequest;
 using ApiMoho.Models.Request;
 using ApiMoho.Models.Response;
 using ApiMoho.Repositories.interfaces;
+using ApiMoho.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -361,6 +363,26 @@ namespace ApiMoho.Commands
             catch (Exception ex)
             {
                 _logger.LogError($"error while searching: {ex}");
+                throw ex.GetBaseException();
+            }
+        }
+
+        public async Task SendEmailToFreelancer(SendEmailToFreelancerRequest sendEmailToFreelancerRequest, UserModel freelancerUser)
+        {
+            try
+            {
+                
+                //add logic to save email to database
+
+                var emailService = new EmailService();
+
+                await emailService.SendEmailToFreelancer(sendEmailToFreelancerRequest.FromEmail,
+                    sendEmailToFreelancerRequest.Message,
+                    freelancerUser.Email, freelancerUser.FirstName + freelancerUser.LastName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while sending Email to freelancer: {ex}");
                 throw ex.GetBaseException();
             }
         }

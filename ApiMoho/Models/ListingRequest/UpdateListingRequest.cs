@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiMoho.Models.Enums;
 
-namespace ApiMoho.Models.Request
+namespace ApiMoho.Models
 {
     public class UpdateListingRequest
     {

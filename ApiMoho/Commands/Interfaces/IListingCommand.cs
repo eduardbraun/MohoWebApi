@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
+using ApiMoho.Models.ListingRequest;
 using ApiMoho.Models.Request;
 using ApiMoho.Models.Response;
 
@@ -18,5 +20,6 @@ namespace ApiMoho.Commands.Interfaces
         Task SetListingStatus(SetListingEnabledRequest setListingEnabledRequest,string userId);
         Task<GetFilterListResponse> GetFilterList();
         Task<UserListingCollectionDto> SearchFilterList(SearchListingRequest searchListingRequest);
+        Task SendEmailToFreelancer(SendEmailToFreelancerRequest sendEmailToFreelancerRequest, UserModel freelancerUser);
     }
 }

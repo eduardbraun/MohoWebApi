@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 using ApiMoho.Commands.Interfaces;
 using ApiMoho.Models;
 using ApiMoho.Models.Dtos;
+using ApiMoho.Models.ListingRequest;
 using ApiMoho.Models.Request;
 using ApiMoho.Models.Response;
-using ApiMoho.Repositories.interfaces;
-using ApiMoho.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -240,6 +239,43 @@ namespace ApiMoho.Controllers
                     await _listingCommand.SetListingStatus(setListingEnabledRequest, user.Id);
 
                     return Ok("Successfully set listing status");
+                }
+                else
+                {
+                    _logger.LogError($"error user does not exis");
+                    return StatusCode((int)HttpStatusCode.InternalServerError, "error user does not exist");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"error while updated the listing: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while updating the listing");
+            }
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("ContactSeller")]
+        public async Task<IActionResult> ContactSeller([FromBody] SendEmailToFreelancerRequest sendEmailToFreelancerRequest)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(error: "Please enter all required fields.");
+                }
+
+
+                var user = await _userManager.FindByIdAsync(sendEmailToFreelancerRequest.FreeLancerUserId);
+
+                if (user != null)
+                {
+                    await _listingCommand.SendEmailToFreelancer(sendEmailToFreelancerRequest, user);
+
+                    return Ok(new
+                    {
+                        Message = "Successfully send Email to Freelancer!"
+                    });
                 }
                 else
                 {
