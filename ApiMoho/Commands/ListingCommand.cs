@@ -22,12 +22,14 @@ namespace ApiMoho.Commands
     public class ListingCommand : IListingCommand
     {
         private ILogger<ListingCommand> _logger;
+        private ILogService _logService;
         private IListingRepository _listingRepository;
         private IHttpContextAccessor _httpContextAccessor;
 
         public ListingCommand(IListingRepository listingRepository, IHttpContextAccessor httpContextAccessor,
-            ILogger<ListingCommand> logger)
+            ILogger<ListingCommand> logger, ILogService logService)
         {
+            _logService = logService;
             _httpContextAccessor = httpContextAccessor;
             _listingRepository = listingRepository;
             _logger = logger;
@@ -371,14 +373,14 @@ namespace ApiMoho.Commands
         {
             try
             {
-                
-                //add logic to save email to database
-
                 var emailService = new EmailService();
 
                 await emailService.SendEmailToFreelancer(sendEmailToFreelancerRequest.FromEmail,
                     sendEmailToFreelancerRequest.Message,
                     freelancerUser.Email, freelancerUser.FirstName + freelancerUser.LastName);
+
+                await _logService.AddSendEmailLog(sendEmailToFreelancerRequest.Message, sendEmailToFreelancerRequest.FromEmail,
+                    freelancerUser.Email, freelancerUser.Id);
             }
             catch (Exception ex)
             {

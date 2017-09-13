@@ -10,6 +10,7 @@ using ApiMoho.Context;
 using ApiMoho.Models;
 using ApiMoho.Repositories;
 using ApiMoho.Repositories.interfaces;
+using ApiMoho.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -81,7 +82,9 @@ namespace ApiMoho
                 };
             });
 
-#endregion
+            #endregion
+            //Services Injections
+            services.AddSingleton<ILogService, LogService>();
 
             //Conmands Injections
             services.AddSingleton<IListingCommand, ListingCommand>();

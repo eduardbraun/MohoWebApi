@@ -21,15 +21,7 @@ namespace ApiMoho.Services
 
         public async Task SendActivationEmail()
         {
-//            var apiKey = AppConfig.SendGridApiKey;
-//            var client = new SendGridClient(apiKey);
-//            var from = new EmailAddress("donotreply@iknowwhatyouaredoing.com", "Secret");
-//            var subject = "Ich weis was du gemacht hast gerade.";
-//            var to = new EmailAddress("felixbraun1@yahoo.ca", "Felix Braun");
-//            var plainTextContent = "mach das bitte nicht mehr";
-//            var htmlContent = "<strong>mach das bitte nicht mehr</strong>";
-//            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-//            var response = await client.SendEmailAsync(msg);
+            
         }
 
         public async Task SendEmailToFreelancer(string fromEmail, string message, string toEmail, string toFullname)
@@ -54,6 +46,13 @@ namespace ApiMoho.Services
                                   "\n\n\n\n <strong> Your Skillzas team. </strong>";
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
                 var response = await client.SendEmailAsync(msg);
+
+                var from2 = new EmailAddress(fromEmail);
+
+                var msg2 = MailHelper.CreateSingleEmail(from, from2, "This is a copy from your message.",
+                    plainTextContent, htmlContent);
+
+                var response2 = await client.SendEmailAsync(msg2);
 
                 if ((int) response.StatusCode > 210)
                 {

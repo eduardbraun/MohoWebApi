@@ -26,8 +26,14 @@ namespace ApiMoho.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=ApiMoho;Trusted_Connection=True;");
+#if (!DEBUG)
+                optionsBuilder.UseSqlServer(@"Server=108.59.84.13; Database=ApiMoho; Trusted_Connection=False; User Id=sa;Password=Xa/&b.\)X.BEi&3;");
+#endif
+
+
+#if (DEBUG)
+                optionsBuilder.UseSqlServer(@"data source=.\SQLEXPRESS;initial catalog=ApiMoho;persist security info=True;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework");
+#endif
             }
         }
 
@@ -71,7 +77,7 @@ namespace ApiMoho.Models
 
             modelBuilder.Entity<AspNetUserLogins>(entity =>
             {
-                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+                entity.HasKey(e => new {e.LoginProvider, e.ProviderKey});
 
                 entity.HasIndex(e => e.UserId);
 
@@ -84,7 +90,7 @@ namespace ApiMoho.Models
 
             modelBuilder.Entity<AspNetUserRoles>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.RoleId });
+                entity.HasKey(e => new {e.UserId, e.RoleId});
 
                 entity.HasIndex(e => e.RoleId);
 
@@ -124,7 +130,7 @@ namespace ApiMoho.Models
 
             modelBuilder.Entity<AspNetUserTokens>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+                entity.HasKey(e => new {e.UserId, e.LoginProvider, e.Name});
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
